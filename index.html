@@ -1,644 +1,275 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confira se você apresenta indícios de Autismo</title>
+    <title>Teste de Transtorno do Espectro Autista</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            margin: 0;
         }
-
-        .container {
-            max-width: 600px;
-            width: 100%;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
         .logo {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
+            text-align: center;
+            margin: 20px 0;
         }
-
         .logo img {
             width: 20mm;
             height: 20mm;
         }
-
-        .subtitle {
-            font-size: 20px;
+        .title {
+            text-align: center;
             font-weight: bold;
-            text-align: center;
-            margin-bottom: 10px;
+            color: #0000CD;
+            font-size: 14px;
         }
-
         .description {
+            text-align: justify;
+            color: #000000;
             font-size: 12px;
-            text-align: center;
-            margin-bottom: 20px;
+            margin: 20px;
         }
-
-        .question-card {
-            background-color: #e3f2fd;
-            border: 1px solid #90caf9;
-            border-radius: 8px;
+        .highlight {
+            font-weight: bold;
+        }
+        .instructions {
+            background-color: #FFE4B5;
+            border: 2px solid #D2691E;
+            margin: 20px;
             padding: 10px;
+        }
+        .questions {
+            margin: 20px;
+        }
+        .question-card {
+            background-color: #87CEEB;
             margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
         }
-
-        .submit-button, .result-buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
+        .question-text {
+            color: #000000;
+            font-size: 12px;
         }
-
-        .submit-button button, .result-buttons button {
-            background-color: #1e88e5;
-            color: white;
+        .result-button {
+            background-color: #0000CD;
+            color: #FFFF00;
+            font-size: 12px;
+            padding: 10px;
             border: none;
-            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
         }
-
-        .submit-button button:hover, .result-buttons button:hover {
-            background-color: #1565c0;
+        .result-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
         }
-
+        .error-message {
+            color: #FF0000;
+            font-size: 12px;
+            text-align: center;
+            margin: 20px;
+        }
         .result-message {
-            text-align: justify;
-            margin-top: 20px;
-            font-size: 18px;
-            
+            font-size: 12px;
+            text-align: center;
+            margin: 20px;
+        }
+        .options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        .options label {
+            font-size: 12px;
+            margin: 0 10px;
+        }
+        .final-buttons {
+            text-align: center;
+            margin: 20px;
+        }
+        .final-buttons button {
+            background-color: #0000CD;
+            color: #FFFF00;
+            font-size: 12px;
+            padding: 10px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
-    <script>
-        function calculateResults(event) {
-            event.preventDefault();
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const totalQuestions = 80;
-            const groups = 8;
-            const groupSize = totalQuestions / groups;
-            let positiveResponses = Array(groups).fill(0);
-            
-            checkboxes.forEach((checkbox, index) => {
-                if (checkbox.checked) {
-                    const groupIndex = Math.floor(index / groupSize);
-                    positiveResponses[groupIndex]++;
-                }
-            });
-            
-            const resultContainer = document.getElementById('result-container');
-            const resultMessage = document.getElementById('result-message');
-            const resultButtons = document.getElementById('result-buttons');
-            const hasIndications = positiveResponses.some(count => count >= 4);
-
-            if (hasIndications) {
-                resultMessage.textContent = "Indício de Autismo identificado - Considere fazer uma avaliação neuropsicológica";
-                resultMessage.style.color = "#1e88e5";
-            } else {
-                resultMessage.textContent = "Não houve percepção de indícios de Autismo";
-                resultMessage.style.color = "#d32f2f";
-            }
-
-            resultContainer.style.display = 'block';
-            resultButtons.style.display = 'flex';
-        }
-
-        function resetForm() {
-            document.getElementById('questionnaire-form').reset();
-            document.getElementById('result-container').style.display = 'none';
-            document.getElementById('result-buttons').style.display = 'none';
-        }
-
-        function goBackToApp() {
-            window.location.href = "https://utilitea.glide.page";
-        }
-    </script>
 </head>
 <body>
 
-<div class="container">
     <div class="logo">
         <img src="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814" alt="Logo">
     </div>
-    <div class="message">
-	<h3 style="text-align: center"><span style="color: #3366ff"><strong>Confira se você apresenta indícios de Autismo</strong></span></h3>
-</div>
-    <div class="message">
-<h4 style="text-align: justify"><p>Este questionário foi criado a partir de considerações do DSM5 (Manual Diagnóstico e Estatístico de Transtornos Mentais 5ª Edição), apenas como ferramenta de auto avaliação inicial para adultos e não como diagnóstico final de autismo, independente da apresentação de indícios do TEA.</p> 
-<p>Muitos que venham a atender aos critérios de diagnóstico podem levar uma vida comum, sem grandes dificuldades, respeitando suas limitações e interagindo com pessoas que conheçam e respeitem sua forma de viver.</p>
-<p>Sempre procure profissionais especializados. Lembre-se de que o diagnóstico de TEA é complexo e exige diversas ferramentas, além de abordagem multidisciplinar.</p>
-<p>Marque todas as opções com as quais se identifica e clique em "Resultado" no final do questionário</p></h4>
+
+    <div class="title">
+        Confira se você apresenta indícios do Transtorno do Espectro Autista
     </div>
-    <form id="questionnaire-form" onsubmit="calculateResults(event)">
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q1">
-                1. Você acha difícil ou se sente desconfortável, incomodado ou até mesmo com certa irritabilidade, quando precisa iniciar uma conversa com um desconhecido, seja presencialmente ou por telefone?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q2">
-                2. Quando está conversando com alguém, você sente dificuldade em manter o interesse ou fica sem saber como continuar a conversa?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q3">
-                3. Você evita compartilhar suas emoções, interesses ou pensamentos com outras pessoas porque acha difícil ou desconfortável?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q4">
-                4. Você tem dificuldade em perceber ou reagir apropriadamente às emoções dos outros, como quando alguém está triste ou feliz?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q5">
-                5. Em situações sociais, você prefere observar de longe ao invés de participar ativamente?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q6">
-                6. Quando alguém compartilha algo pessoal ou importante, você se sente incerto sobre como responder ou mostrar empatia?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q7">
-                7. Você acha difícil iniciar ou manter uma conversa casual com conhecidos ou colegas de trabalho?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q8">
-                8. Você se sente desconfortável ou ansioso em situações onde precisa interagir socialmente com várias pessoas ao mesmo tempo?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q9">
-                9. Você tem dificuldade em ajustar suas expressões faciais ou seu tom de voz para corresponder à situação social em que está?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q10">
-                10. Em situações sociais, você costuma não perceber quando está sendo inconveniente ou inadequado?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q11">
-                11. Você acha difícil interpretar o significado por trás das expressões faciais das pessoas, como saber se estão felizes, tristes ou irritadas?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q12">
-                12. Em conversas, você se sente desconfortável em fazer contato visual prolongado ou acha difícil manter esse contato?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q13">
-                13. Você percebe que raramente usa gestos ou movimentos das mãos para se expressar quando fala?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q14">
-                14. Você tem dificuldade em entender ou usar o tom de voz para transmitir ou captar emoções, como perceber quando alguém está brincando ou sendo sério?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q15">
-                15. Quando está em uma conversa, você se sente incerto sobre como usar sua linguagem corporal de maneira apropriada?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q16">
-                16. Você se sente desconfortável quando precisa tocar alguém ou quando alguém toca em você, mesmo em situações sociais comuns como um aperto de mão?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q17">
-                17. Você evita sorrir ou fazer outras expressões faciais em situações sociais porque não se sente natural ou confortável fazendo isso?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q18">
-                18. Quando alguém faz um gesto ou sinal, você frequentemente não entende o que significa ou demora a perceber?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q19">
-                19. Você acha difícil usar ou entender sinais não verbais, como um aceno de mão para chamar atenção ou um polegar para cima em aprovação?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q20">
-                20. Em situações sociais, você sente que sua expressão corporal não corresponde ao que está dizendo ou sentindo?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q21">
-                21. Você sente dificuldade em fazer e manter amizades ao longo do tempo?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q22">
-                22. Você prefere passar tempo sozinho em vez de participar de atividades em grupo ou eventos sociais?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q23">
-                23. Você acha difícil entender as normas e regras sociais em diferentes contextos, como em uma festa ou no ambiente de trabalho?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q24">
-                24. Em relacionamentos, você sente dificuldade em saber como se comportar ou o que esperar do outro?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q25">
-                25. Você percebe que tem dificuldades em ajustar seu comportamento de acordo com o ambiente social, como sendo muito formal ou muito casual?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q26">
-                26. Você evita situações sociais, como festas ou reuniões, porque se sente desconfortável ou ansioso?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q27">
-                27. Você tem dificuldade em iniciar ou manter conversas com pessoas de diferentes idades ou em diferentes posições sociais?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q28">
-                28. Em relacionamentos românticos, você acha difícil entender as expectativas e emoções do seu parceiro?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q29">
-                29. Você prefere seguir suas próprias regras e rotinas em vez de se adaptar às expectativas sociais?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q30">
-                30. Você sente que suas dificuldades sociais limitam suas oportunidades de fazer amigos ou participar de atividades em grupo?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q31">
-                31. Você frequentemente repete os mesmos movimentos com as mãos, como bater ou balançar, mesmo sem perceber?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q32">
-                32. Você tem o hábito de alinhar ou organizar objetos de uma maneira específica e se sente incomodado quando alguém mexe nesses objetos?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q33">
-                33. Você repete as mesmas palavras ou frases várias vezes, mesmo quando não é necessário?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q34">
-                34. Você se sente desconfortável ou ansioso se algo em seu ambiente é movido ou alterado de sua posição habitual?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q35">
-                35. Você segue rotinas diárias específicas e fica irritado ou ansioso se não consegue segui-las?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q36">
-                36. Você gosta de assistir ou ouvir as mesmas coisas repetidamente, como o mesmo filme ou música?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q37">
-                37. Você sente a necessidade de tocar ou cheirar objetos repetidamente como uma forma de conforto ou hábito?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q38">
-                38. Você usa objetos de maneiras que outras pessoas achariam incomuns, como girar ou balançar coisas repetidamente?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q39">
-                39. Você tem o hábito de balançar ou girar frequentemente, especialmente em momentos de estresse ou ansiedade?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q40">
-                40. Você tem frases ou mantras específicos que repete em certas situações para se acalmar ou se sentir seguro?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q41">
-                41. Você fica ansioso ou irritado quando sua rotina diária é interrompida ou alterada?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q42">
-                42. Você insiste em fazer as coisas sempre do mesmo jeito e se sente desconfortável quando precisa mudar sua maneira de fazer algo?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q43">
-                43. Você se sente desconfortável ou ansioso com mudanças inesperadas em sua vida ou ambiente?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q44">
-                44. Você segue horários específicos para certas atividades e fica perturbado se não consegue seguir esses horários?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q45">
-                45. Você prefere comer os mesmos alimentos todos os dias e fica incomodado se precisa comer algo diferente?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q46">
-                46. Você tem rotinas específicas ao se vestir ou realizar outras tarefas diárias e fica desconfortável se algo interfere nessas rotinas?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q47">
-                47. Você sente a necessidade de tomar o mesmo caminho para o trabalho ou escola todos os dias e fica ansioso se precisa mudar a rota?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q48">
-                48. Você fica irritado ou ansioso se alguém muda a ordem dos seus objetos pessoais ou do ambiente ao seu redor?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q49">
-                49. Você tem rituais específicos que precisa seguir antes de dormir ou realizar outras atividades importantes?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q50">
-                50. Você evita lugares novos ou desconhecidos porque prefere a familiaridade de ambientes conhecidos?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q51">
-                51. Você tem um interesse muito intenso e focado em um determinado assunto, a ponto de falar sobre ele frequentemente, mesmo quando outras pessoas não estão interessadas?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q52">
-                52. Você coleciona objetos relacionados ao seu interesse de forma obsessiva e se sente frustrado se não consegue adquirir mais itens para sua coleção?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q53">
-                53. Você prefere passar seu tempo livre focado em seu interesse específico, mesmo que isso signifique evitar outras atividades sociais ou responsabilidades?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q54">
-                54. Você se sente frustrado ou ansioso se não pode se envolver com seu interesse específico por algum motivo?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q55">
-                55. Você lê ou pesquisa extensivamente sobre seu interesse, dedicando muito tempo e energia a isso?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q56">
-                56. Você tem um hobby ou interesse que ocupa a maior parte do seu tempo e atenção, deixando pouco espaço para outras atividades?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q57">
-                57. Você acha difícil mudar de interesse ou encontrar novos hobbies que o interessem tanto quanto o seu interesse atual?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q58">
-                58. Você sente que seu interesse é mais importante do que outras atividades sociais ou responsabilidades, como trabalho ou estudo?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q59">
-                59. Você prefere conversar sobre seu interesse específico do que sobre outros assuntos, mesmo em situações sociais?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q60">
-                60. Você se sente incomodado ou ansioso se não pode se envolver com seu interesse específico diariamente?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q61">
-                61. Você se sente incomodado ou até mesmo irritado por luzes brilhantes ou piscantes?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q62">
-                62. Você evita certos sons porque eles são muito altos ou irritantes para você, como sirenes ou alarmes?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q63">
-                63. Você gosta de cheirar objetos ou pessoas de forma repetitiva?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q64">
-                64. Você prefere roupas com certas texturas e evita outras que acha desconfortáveis?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q65">
-                65. Você se sente desconfortável ou ansioso em lugares barulhentos, como shoppings ou festas?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q66">
-                66. Você evita alimentos com certas texturas ou sabores porque os acha desagradáveis?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q67">
-                67. Você gosta de olhar para padrões ou luzes de uma maneira que outras pessoas achariam incomum?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q68">
-                68. Você sente a necessidade de tocar certos objetos frequentemente, mesmo que não tenha uma razão específica para isso?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q69">
-                69. Você fica sobrecarregado em ambientes com muitos estímulos sensoriais, como shows ou parques de diversões?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q70">
-                70. Você busca experiências sensoriais intensas, como balançar ou girar, para se acalmar ou se sentir melhor?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q71">
-                71. Você lembra de ter essas dificuldades sociais desde a infância, ou seus familiares mencionaram que você tinha esses comportamentos quando criança?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q72">
-                72. Seus familiares ou amigos notaram essas dificuldades sociais e comportamentais desde que você era criança?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q73">
-                73. Você tem lembranças de se sentir diferente das outras crianças na escola, como ter dificuldades para fazer amigos ou entender as regras sociais?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q74">
-                74. Suas dificuldades sociais e comportamentais causaram problemas na escola, como dificuldades acadêmicas ou disciplinares?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q75">
-                75. Você teve problemas para fazer amigos ou manter amizades desde a infância, e esses problemas continuam na vida adulta?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q76">
-                76. Suas dificuldades sociais e comportamentais afetaram seu desempenho no trabalho, como ter problemas com colegas ou dificuldades para seguir instruções?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q77">
-                77. Você sente que essas dificuldades limitam suas atividades diárias, como evitar situações sociais ou ter problemas em ambientes públicos?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q78">
-                78. Você evita certas atividades ou situações porque sabe que suas dificuldades sociais ou comportamentais causarão desconforto ou ansiedade?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q79">
-                79. Você sente que precisa de suporte extra ou estratégias específicas para lidar com situações sociais ou profissionais que outras pessoas parecem lidar com facilidade?
-            </label>
-        </div>
-        <div class="question-card">
-            <label>
-                <input type="checkbox" name="q80">
-                80. Suas dificuldades sociais e comportamentais já causaram problemas em seus relacionamentos pessoais, como mal-entendidos frequentes ou dificuldades em manter relacionamentos?
-            </label>
-        </div>
 
-        
+    <div class="description">
+        Este questionário foi baseado no Quociente Autism-Spectrum (ou AQ), que é uma medida de traços autísticos em adultos através de <span class="highlight">50 perguntas</span>, elaborado por Simon Baron-Cohen, Sally Wheelwright, Richard Skinner, Joanne Martin and Emma Clubley.
+        <br><br>
+        Este teste não é um autodiagnostico, ele tem o objetivo de ajudar a identificar alguns traços que podem estar ligados ao comportamento autista, portanto, não tem validade legal como diagnóstico.
+    </div>
 
-        <div class="submit-button">
-            <button type="submit">Ver Resultados</button>
-        </div>
-        <div id="result-container" style="display:none;">
-            <div id="result-message" class="result-message"></div>
-        </div>
-        <div id="result-buttons" class="result-buttons" style="display:none;">
-            <button type="button" onclick="resetForm()">Refazer questionário</button>
-            <button type="button" onclick="goBackToApp()">Voltar ao app</button>
-        </div>
-    </form>
-</div>
+    <div class="instructions">
+        <b>Orientação:</b> Abaixo está uma lista de afirmações. Leia cada uma delas e assinale a opção que mais estiver de acordo com sua realidade. Não deixe nenhuma afirmativa sem resposta. No final, clique em "Resultado".
+    </div>
+
+    <div class="questions" id="questions">
+        <!-- Perguntas serão inseridas aqui via JavaScript -->
+    </div>
+
+    <div class="result-button-container" style="text-align: center;">
+        <button class="result-button" id="resultButton" onclick="calculateResult()">Resultado</button>
+    </div>
+
+    <div class="error-message" id="errorMessage"></div>
+    <div class="result-message" id="resultMessage"></div>
+    <div class="final-buttons" id="finalButtons" style="display: none;">
+        <button onclick="resetTest()">Reiniciar teste</button>
+        <button onclick="goHome()">Página inicial</button>
+    </div>
+
+    <script>
+        const questions = [
+            "Eu prefiro fazer as coisas com os outros, em vez de sozinho.",
+            "Eu prefiro fazer as coisas da mesma maneira sempre.",
+            "Se eu tentar imaginar algo, acho que é muito fácil criar uma imagem em minha mente.",
+            "Eu frequentemente fico tão fortemente concentrado em uma coisa que eu ignoro outras coisas.",
+            "Costumo observar pequenos sons quando os outros não os percebem.",
+            "Eu costumo observar placas de carros, números ou sequências similares de informações.",
+            "Outras pessoas frequentemente me corrigem, dizendo que o que falo é falta de educação, mesmo quando eu acho que é educado.",
+            "Quando eu estou lendo uma história, eu posso facilmente imaginar o que os personagens estão fazendo.",
+            "Sou fascinado por datas.",
+            "Em um grupo social, eu posso facilmente manter conversação com diferentes pessoas.",
+            "Acho fácil conviver socialmente.",
+            "Eu percebo detalhes que outros não percebem tão facilmente.",
+            "Prefiro ir a uma biblioteca do que uma festa.",
+            "Acho inventar histórias algo muito fácil.",
+            "Sou atraído mais fortemente para as pessoas do que para coisas.",
+            "Quando tenho interesse muito forte num determinado assunto, fico muito chateado se não consigo levar adiante meus pensamentos sobre este assunto.",
+            "Eu gosto de fofoca social.",
+            "Quando eu falo, nem sempre é fácil para os outros entenderem claramente o que quero dizer.",
+            "Sou fascinado por números.",
+            "Quando eu estou lendo uma história, acho difícil entender as intenções dos personagens.",
+            "Eu particularmente não gosto de ler ficção.",
+            "Acho que é difícil fazer novos amigos.",
+            "Percebo padrões nas coisas o tempo todo.",
+            "Prefiro ir ao teatro do que um museu.",
+            "Eu não me chateio se minha rotina diária é perturbada.",
+            "Eu frequentemente tenho dificuldade em manter uma conversa.",
+            "Consigo facilmente 'ler nas entrelinhas' quando alguém está falando comigo.",
+            "Eu costumo me concentrar mais numa imagem por inteiro do que nos pequenos detalhes.",
+            "Eu não sou muito bom em lembrar números de telefone.",
+            "Eu não costumo perceber pequenas mudanças em uma situação ou na aparência de uma pessoa.",
+            "Eu percebo se alguém que está me ouvindo está ficando entediado.",
+            "Acho fácil fazer mais de uma coisa ao mesmo tempo.",
+            "Quando eu falo ao telefone, tenho dificuldade de saber quando é a minha vez de falar.",
+            "Eu gosto de fazer as coisas de forma espontânea.",
+            "Muitas vezes sou o último a entender uma piada.",
+            "Consigo perceber o que uma pessoa está pensando ou sentindo só de olhar para seu rosto.",
+            "Se houver uma interrupção, eu posso voltar para o que eu estava fazendo muito rapidamente.",
+            "Eu sou bom em conversa social.",
+            "Muitas vezes as pessoas me dizem que eu continuo falando repetidamente sobre a mesma coisa.",
+            "Quando eu era jovem, eu gostava de jogar jogos de imaginação com outras crianças.",
+            "Eu gosto de coletar informações sobre categorias de coisas (por exemplo, os tipos de carros, pássaros, trens, plantas).",
+            "Para mim, é muito dificil imaginar-me sendo outra pessoa.",
+            "Eu gosto de planejar cuidadosamente qualquer atividade que eu irei participar.",
+            "Gosto de ocasiões (reuniões) sociais.",
+            "Acho difícil detectar as reais intenções das pessoas.",
+            "Situações novas me deixam ansioso.",
+            "Eu gosto de conhecer novas pessoas.",
+            "Eu sou um bom diplomata.",
+            "Eu não sou muito bom em lembrar da data de nascimento das pessoas.",
+            "Gosto de brincar de jogos imaginários com as crianças."
+        ];
+
+        const calculationParameters = {
+            positive: [2, 4, 5, 6, 7, 9, 12, 13, 16, 18, 19, 20, 21, 22, 23, 26, 33, 35, 39, 41, 42, 43, 45, 46],
+            negative: [1, 3, 8, 10, 11, 14, 15, 17, 24, 25, 27, 28, 29, 30, 31, 32, 34, 36, 37, 38, 40, 44, 47, 48, 49, 50]
+        };
+
+        const container = document.getElementById('questions');
+
+        questions.forEach((question, index) => {
+            const questionCard = document.createElement('div');
+            questionCard.className = 'question-card';
+            questionCard.id = `question-${index + 1}`;
+            questionCard.innerHTML = `
+                <div class="question-text">${(index + 1).toString().padStart(2, '0')} ${question}</div>
+                <div class="options">
+                    <label><input type="radio" name="q${index + 1}" value="1"> Concordo definitivamente</label>
+                    <label><input type="radio" name="q${index + 1}" value="2"> Concordo um pouco</label>
+                    <label><input type="radio" name="q${index + 1}" value="3"> Discordo um pouco</label>
+                    <label><input type="radio" name="q${index + 1}" value="4"> Discordo definitivamente</label>
+                </div>
+            `;
+            container.appendChild(questionCard);
+        });
+
+        function calculateResult() {
+            let score = 0;
+            let incomplete = false;
+            document.getElementById('errorMessage').innerHTML = '';
+
+            questions.forEach((_, index) => {
+                const options = document.getElementsByName(`q${index + 1}`);
+                let answered = false;
+
+                options.forEach(option => {
+                    if (option.checked) {
+                        answered = true;
+                        const questionNumber = index + 1;
+                        if (calculationParameters.positive.includes(questionNumber) && (option.value == "1" || option.value == "2")) {
+                            score++;
+                        }
+                        if (calculationParameters.negative.includes(questionNumber) && (option.value == "3" || option.value == "4")) {
+                            score++;
+                        }
+                    }
+                });
+
+                if (!answered) {
+                    incomplete = true;
+                    document.getElementById(`question-${index + 1}`).style.boxShadow = '0 0 5px 5px #FF0000';
+                } else {
+                    document.getElementById(`question-${index + 1}`).style.boxShadow = 'none';
+                }
+            });
+
+            if (incomplete) {
+                document.getElementById('errorMessage').innerText = 'Questionário incompleto';
+            } else {
+                document.getElementById('resultMessage').innerText = '';
+                if (score >= 32) {
+                    document.getElementById('resultMessage').innerHTML = `Você fez ${score} pontos, o que indica possibilidades de autismo. Recomendamos a avaliação de um profissional.`;
+                    document.getElementById('resultMessage').style.color = '#0000FF';
+                } else {
+                    document.getElementById('resultMessage').innerHTML = `Você fez ${score} pontos. A informação não indica traço de autismo.`;
+                    document.getElementById('resultMessage').style.color = '#000000';
+                }
+                document.getElementById('finalButtons').style.display = 'block';
+            }
+        }
+
+        function resetTest() {
+            document.querySelectorAll('input[type=radio]').forEach(input => input.checked = false);
+            document.getElementById('resultMessage').innerText = '';
+            document.getElementById('errorMessage').innerText = '';
+            document.getElementById('finalButtons').style.display = 'none';
+            questions.forEach((_, index) => {
+                document.getElementById(`question-${index + 1}`).style.boxShadow = 'none';
+            });
+        }
+
+        function goHome() {
+            window.location.href = 'https://utilitea.glide.page';
+        }
+    </script>
 
 </body>
 </html>
