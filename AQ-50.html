@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
+    <title>Quociente do Espectro Autista - AQ50</title>
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814" type="image/png">
+    <meta property="og:title" content="Quociente do Espectro Autista - AQ50">
+    <meta property="og:description" content="Teste de identificação de traços autistas em adultos">
+    <meta property="og:image" content="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814">
+    <meta property="og:url" content="https://utilitea.glide.page">
+    <meta property="og:type" content="website">
+</head>
+    <style>
+        body {
+            font-family: Calibri;
+            margin: 20px;
+            font-size: 18px;
+            background-color: #ADD8E6;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            border-radius: 15px;
+        }
+        .progress {
+            height: 20px;
+            background-color: #038dff;
+            width: 0%;
+            text-align: center;
+            line-height: 20px;
+            color: transparent;
+            border-radius: 15px;
+        }
+        .question-container {
+            display: none;
+        }
+        .question-container.active {
+            display: block;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        .navigation-buttons button:hover {
+            transform: scale(1.1);
+            border-radius: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        .navigation-buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        h1 {
+            text-align: center;
+        }
+        .introduction {
+            border: none;
+            padding: 5px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            text-align: justify;
+        }
+        .question-container {
+            border: 1px solid #038dff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        #restartBtn {
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            width: auto;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+        }
+.result-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 80%;
+    max-width: 500px;
+}
+
+.popup-content h2 {
+    margin-top: 0;
+}
+
+.highlight {
+    color: red;
+    font-weight: bold;
+}
+
+#closePopupBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #499fdb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#closePopupBtn:hover {
+    background-color: #367c9b;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Quociente do Espectro Autista (AQ)</h1>
+    <div class="introduction">
+        <p>O Teste de Quociente do Espectro do Autismo (AQ) tem <b>50 questões</b> de autoadministração. Criado por Simon Baron-Cohen e sua equipe no Cambridge Autism Research Centre, publicado em 2001. Tem o objetivo de quantificar traços associados ao Espectro do Autismo, logo, este teste <b>não tem validade como diagnóstico</b>. Apenas indica se o indivíduo deve considerar uma avaliação com profissional.</p>
+        <p>Esta é uma tradução livre do questionário oficial em inglês <a href="https://psychology-tools.com/test/autism-spectrum-quotient" target="_blank">Psychology Tools</a></p>
+        <p><b>Instruções:</b> Para cada afirmação abaixo, escolha uma resposta que melhor se aplica a você:</p>
+    </div>
+    <div class="progress-bar">
+        <div id="progress" class="progress">0%</div>
+    </div>
+    
+    <form id="aq-test" method="post">
+        <div id="q1" class="question-container active">
+            <p>1. Eu prefiro fazer as coisas com os outros do que sozinho.</p>
+            <input type="radio" name="q1" value="0" required> Concordo Totalmente<br>
+            <input type="radio" name="q1" value="0" required> Concordo Parcialmente<br>
+            <input type="radio" name="q1" value="1" required> Discordo Parcialmente<br>
+            <input type="radio" name="q1" value="1" required> Discordo Totalmente<br>
+        </div>
+
+        <div id="q2" class="question-container">
+            <p>2. Eu prefiro fazer as coisas do mesmo jeito repetidamente.</p>
+            <input type="radio" name="q2" value="1" required> Concordo Totalmente<br>
+            <input type="radio" name="q2" value="1" required> Concordo Parcialmente<br>
+            <input type="radio" name="q2" value="0" required> Discordo Parcialmente<br>
+            <input type="radio" name="q2" value="0" required> Discordo Totalmente<br>
+        </div>
+
+        <div id="q3" class="question-container">
+            <p>3. Se eu tento imaginar algo, acho muito fácil criar uma imagem na minha mente.</p>
+            <input type="radio" name="q3" value="0" required> Concordo Totalmente<br>
+            <input type="radio" name="q3" value="0" required> Concordo Parcialmente<br>
+            <input type="radio" name="q3" value="1" required> Discordo Parcialmente<br>
+            <input type="radio" name="q3" value="1" required> Discordo Totalmente<br>
+        </div>
+
+        <div id="q4" class="question-container">
+            <p>4. Eu frequentemente fico tão absorvido em uma coisa que perco a noção de outras coisas.</p>
+            <input type="radio" name="q4" value="1" required></td> Concordo Totalmente<br>
+            <input type="radio" name="q4" value="1" required></td> Concordo Parcialmente<br>
+            <input type="radio" name="q4" value="0" required></td> Discordo Parcialmente<br>
+            <input type="radio" name="q4" value="0" required></td> Discordo Totalmente<br>
+        </div>
+
+                <div id="q5" class="question-container">
+                    <p>5. Eu frequentemente noto sons baixos quando outros não notam.</p>
+                    <input type="radio" name="q5" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q5" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q5" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q5" value="0" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q6" class="question-container">
+                    <p>6. Eu geralmente noto placas de carro ou sequências semelhantes de informações.</p>
+                    <input type="radio" name="q6" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q6" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q6" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q6" value="0" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q7" class="question-container">
+                    <p>7. Outras pessoas frequentemente me dizem que o que eu disse é indelicado, mesmo que eu ache que é educado.</p>
+                    <input type="radio" name="q7" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q7" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q7" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q7" value="0" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q8" class="question-container">
+                    <p>8. Quando estou lendo uma história, posso facilmente imaginar como os personagens podem ser.</p>
+                    <input type="radio" name="q8" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q8" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q8" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q8" value="1" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q9" class="question-container">
+                    <p>9. Eu sou fascinado por datas.</p>
+                    <input type="radio" name="q9" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q9" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q9" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q9" value="0" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q10" class="question-container">
+                    <p>10. Em um grupo social, posso facilmente acompanhar as conversas de várias pessoas diferentes.</p>
+                    <input type="radio" name="q10" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q10" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q10" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q10" value="1" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q11" class="question-container">
+                    <p>11. Eu acho fácil situações sociais.</p>
+                    <input type="radio" name="q11" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q11" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q11" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q11" value="1" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q12" class="question-container">
+                    <p>12. Eu costumo notar detalhes que outros não notam.</p>
+                    <input type="radio" name="q12" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q12" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q12" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q12" value="0" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q13" class="question-container">
+                    <p>13. Eu preferiria ir a uma biblioteca do que a uma festa.</p>
+                    <input type="radio" name="q13" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q13" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q13" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q13" value="0" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q14" class="question-container">
+                    <p>14. Eu acho fácil criar histórias.</p>
+                    <input type="radio" name="q14" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q14" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q14" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q14" value="1" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q15" class="question-container">
+                    <p>15. Eu me sinto mais atraído por pessoas do que por coisas.</p>
+                    <input type="radio" name="q15" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q15" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q15" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q15" value="1" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q16" class="question-container">
+                    <p>16. Eu costumo ter interesses muito fortes, que me deixam chateado se não posso persegui-los.</p>
+                    <input type="radio" name="q16" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q16" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q16" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q16" value="0" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q17" class="question-container">
+                    <p>17. Eu gosto de conversas casuais.</p>
+                    <input type="radio" name="q17" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q17" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q17" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q17" value="1" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q18" class="question-container">
+                    <p>18. Quando eu falo, não é sempre fácil para os outros conseguirem uma palavra.</p>
+                    <input type="radio" name="q18" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q18" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q18" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q18" value="0" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q19" class="question-container">
+                    <p>19. Eu sou fascinado por números.</p>
+                    <input type="radio" name="q19" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q19" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q19" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q19" value="0" required></td> Discordo Totalmente<br>
+                </div>
+
+                <div id="q20" class="question-container">
+                    <p>20. Quando estou lendo uma história, acho difícil entender as intenções dos personagens.</p>
+                    <input type="radio" name="q20" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q20" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q20" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q20" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q21" class="question-container">
+                    <p>21. Eu não gosto de situações que envolvem muitos eventos inesperados.</p>
+                    <input type="radio" name="q21" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q21" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q21" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q21" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q22" class="question-container">
+                    <p>22. Eu prefiro coletar informações sobre categorias de coisas (por exemplo, tipos de carros, tipos de pássaros, tipos de trens) do que sobre coisas particulares (por exemplo, um carro, um pássaro, um trem específico).</p>
+                    <input type="radio" name="q22" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q22" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q22" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q22" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q23" class="question-container">
+                    <p>23. Eu costumo perceber detalhes que outros não percebem.</p>
+                    <input type="radio" name="q23" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q23" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q23" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q23" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q24" class="question-container">
+                    <p>24. Eu costumo ter dificuldade em entender as intenções das pessoas.</p>
+                    <input type="radio" name="q24" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q24" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q24" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q24" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q25" class="question-container">
+                    <p>25. Eu só noto um erro se ele é muito óbvio.</p>
+                    <input type="radio" name="q25" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q25" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q25" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q25" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q26" class="question-container">
+                    <p>26. Eu costumo notar pequenos sons que outros não notam.</p>
+                    <input type="radio" name="q26" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q26" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q26" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q26" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q27" class="question-container">
+                    <p>27. Eu gosto de colecionar informações sobre categorias de coisas (por exemplo, tipos de carros, tipos de pássaros, tipos de trens).</p>
+                    <input type="radio" name="q27" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q27" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q27" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q27" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q28" class="question-container">
+                    <p>28. Eu encontro padrões em todos os aspectos da vida.</p>
+                    <input type="radio" name="q28" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q28" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q28" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q28" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q29" class="question-container">
+                    <p>29. Eu prefiro fazer as coisas do mesmo jeito repetidamente.</p>
+                    <input type="radio" name="q29" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q29" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q29" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q29" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q30" class="question-container">
+                    <p>30. Eu noto padrões em todos os lugares.</p>
+                    <input type="radio" name="q30" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q30" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q30" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q30" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q31" class="question-container">
+                    <p>31. Eu acho difícil entender o que as pessoas realmente significam quando dizem algo.</p>
+                    <input type="radio" name="q31" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q31" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q31" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q31" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q32" class="question-container">
+                    <p>32. Eu sou fascinado por números.</p>
+                    <input type="radio" name="q32" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q32" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q32" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q32" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q33" class="question-container">
+                    <p>33. Eu costumo entender as intenções das pessoas.</p>
+                    <input type="radio" name="q33" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q33" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q33" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q33" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q34" class="question-container">
+                    <p>34. Eu noto pequenos sons que outros não notam.</p>
+                    <input type="radio" name="q34" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q34" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q34" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q34" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q35" class="question-container">
+                    <p>35. Eu me sinto confortável em situações sociais.</p>
+                    <input type="radio" name="q35" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q35" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q35" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q35" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q36" class="question-container">
+                    <p>36. Eu percebo padrões em todos os lugares.</p>
+                    <input type="radio" name="q36" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q36" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q36" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q36" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q37" class="question-container">
+                    <p>37. Eu me sinto à vontade em situações sociais.</p>
+                    <input type="radio" name="q37" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q37" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q37" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q37" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q38" class="question-container">
+                    <p>38. Eu prefiro fazer as coisas do meu jeito.</p>
+                    <input type="radio" name="q38" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q38" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q38" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q38" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q39" class="question-container">
+                    <p>39. Eu não tenho dificuldade em entender piadas.</p>
+                    <input type="radio" name="q39" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q39" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q39" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q39" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q40" class="question-container">
+                    <p>40. Eu prefiro fazer as coisas sozinho.</p>
+                    <input type="radio" name="q40" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q40" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q40" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q40" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q41" class="question-container">
+                    <p>41. Eu costumo perceber pequenos detalhes que outros não percebem.</p>
+                    <input type="radio" name="q41" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q41" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q41" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q41" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q42" class="question-container">
+                    <p>42. Eu tenho dificuldade em entender o que as pessoas realmente querem dizer.</p>
+                    <input type="radio" name="q42" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q42" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q42" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q42" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q43" class="question-container">
+                    <p>43. Eu costumo perceber coisas que outros não percebem.</p>
+                    <input type="radio" name="q43" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q43" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q43" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q43" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q44" class="question-container">
+                    <p>44. Eu me sinto confortável em situações sociais.</p>
+                    <input type="radio" name="q44" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q44" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q44" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q44" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q45" class="question-container">
+                    <p>45. Eu percebo pequenos detalhes que outros não percebem.</p>
+                    <input type="radio" name="q45" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q45" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q45" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q45" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q46" class="question-container">
+                    <p>46. Eu costumo seguir rotinas.</p>
+                    <input type="radio" name="q46" value="1" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q46" value="1" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q46" value="0" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q46" value="0" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q47" class="question-container">
+                    <p>47. Eu acho difícil entender as intenções das pessoas.</p>
+                    <input type="radio" name="q47" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q47" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q47" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q47" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q48" class="question-container">
+                    <p>48. Eu acho fácil entender o que as pessoas realmente querem dizer.</p>
+                    <input type="radio" name="q48" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q48" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q48" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q48" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q49" class="question-container">
+                    <p>49. Eu noto padrões em todos os lugares.</p>
+                    <input type="radio" name="q49" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q49" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q49" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q49" value="1" required></td> Discordo Totalmente<br>
+                </div>
+                <div id="q50" class="question-container">
+                    <p>50. Eu gosto de colecionar informações sobre categorias de coisas (por exemplo, tipos de carros, tipos de pássaros, tipos de trens).</p>
+                    <input type="radio" name="q50" value="0" required></td> Concordo Totalmente<br>
+                    <input type="radio" name="q50" value="0" required></td> Concordo Parcialmente<br>
+                    <input type="radio" name="q50" value="1" required></td> Discordo Parcialmente<br>
+                    <input type="radio" name="q50" value="1" required></td> Discordo Totalmente<br>
+                </div>
+
+        <div id="result" class="result"></div>
+        <div class="navigation-buttons">
+            <button type="button" id="prevBtn">Anterior</button>
+            <button type="button" id="nextBtn">Próximo</button>
+            <button type="button" id="submitBtn" style="display:none;">Submeter</button>
+        </div>
+        <button type="button" id="restartBtn" style="display:none;">Reiniciar</button>
+    </form>
+</div>
+
+<script>
+    const totalQuestions = 50;
+    let currentQuestion = 1;
+
+    const questions = Array.from(document.querySelectorAll('.question-container'));
+    const progressBar = document.getElementById('progress');
+    const resultDiv = document.getElementById('result');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const restartBtn = document.getElementById('restartBtn');
+
+    function updateProgressBar() {
+        const progress = (currentQuestion / totalQuestions) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressBar.textContent = `${Math.round(progress)}%`;
+    }
+
+    function showQuestion(n) {
+        questions.forEach((q, index) => {
+            q.classList.toggle('active', index === n - 1);
+        });
+        prevBtn.style.display = n === 1 ? 'none' : 'inline-block';
+        restartBtn.style.display = n >= 2 ? 'inline-block' : 'none';
+        nextBtn.style.display = n === totalQuestions ? 'none' : 'inline-block';
+        submitBtn.style.display = n === totalQuestions ? 'inline-block' : 'none';
+        updateProgressBar();
+    }
+
+    function isQuestionAnswered(n) {
+        const question = document.querySelector(`input[name="q${n}"]:checked`);
+        return question !== null;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (isQuestionAnswered(currentQuestion)) {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            }
+        } else {
+            alert("Por favor, responda a pergunta antes de continuar.");
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentQuestion > 1) {
+            currentQuestion--;
+            showQuestion(currentQuestion);
+        }
+    });
+
+submitBtn.addEventListener('click', () => {
+    for (let i = 1; i <= totalQuestions; i++) {
+        if (!isQuestionAnswered(i)) {
+            alert(`Você não respondeu a pergunta ${i}. Por favor, responda todas as perguntas antes de submeter.`);
+            return;
+        }
+    }
+
+    const answers = Array.from(document.querySelectorAll('input[type="radio"]:checked')).map(input => parseInt(input.value, 10));
+    const totalScore = answers.reduce((a, b) => a + b, 0);
+
+    let resultText = `<h2>Resultado</h2>`;
+    resultText += `<p>Pontuação Total: ${totalScore}</p>`;
+
+    if (totalScore >= 32 && totalScore <= 50) {
+        resultText += `<p class="highlight" style="color: #FF0000; font-weight: bold;">Alta probabilidade de autismo.</p><p>Recomendado procurar avaliação profissional.</p>`;
+    } else if (totalScore >= 26 && totalScore <= 31) {
+        resultText += `<p class="highlight" style="color: #FF8C00; font-weight: bold;">Traços de autismo identificados.</p><p> Considere procurar avaliação profissional.</p>`;
+    } else {
+        resultText += `<p>Baixa probabilidade de traços do espectro autista.</p>`;
+    }
+
+    const popup = document.createElement('div');
+    popup.className = 'result-popup';
+    popup.innerHTML = `
+        <div class="popup-content">
+            ${resultText}
+            <button id="closePopupBtn">Fechar</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+
+    document.getElementById('closePopupBtn').addEventListener('click', () => {
+        popup.remove();
+    });
+});
+
+
+restartBtn.addEventListener('click', () => {
+    if (confirm("Todas as questões marcadas serão apagadas. Deseja realmente reiniciar o teste?")) {
+        currentQuestion = 1;
+        questions.forEach((q) => {
+            const inputs = q.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => input.checked = false);
+        });
+        showQuestion(currentQuestion);
+        resultDiv.innerHTML = '';
+        resultDiv.style.display = 'none';
+        restartBtn.style.display = 'none';
+    }
+});
+
+    // Mostrar a primeira questão
+    showQuestion(currentQuestion);
+
+</script>
+</body>
+</html>

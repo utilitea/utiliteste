@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
+    <title>Descubra se você é neurodivergênte</title>
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814" type="image/png">
+    <meta property="og:title" content="Descubra se você é neurodivergênte">
+    <meta property="og:description" content="Testes de autoaplicação para identificação de traços de neurodiversidades em adultos">
+    <meta property="og:image" content="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814">
+    <meta property="og:url" content="https://utilitea.glide.page">
+    <meta property="og:type" content="website">
+    <style>
+        body {
+            font-family: Calibri;
+            margin: 20px;
+            font-size: 18px;
+            background: radial-gradient(circle at center, 
+                rgba(255, 0, 0, 0.5), 
+                rgba(0, 255, 0, 0.5), 
+                rgba(0, 0, 255, 0.5), 
+                rgba(255, 255, 255, 0.3));
+            background-size: 200% 200%;
+            animation: gradient 15s ease infinite;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .introduction {
+            border: none;
+            padding: 5px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            text-align: justify;
+        }
+        .selection-container {
+            margin-top: 30px;
+            border: 1px solid #000000;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        .selection-container select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 1px solid #D2691E;
+            background-color: #ffffff;
+            color: #333333;
+        }
+        .selection-container select:focus {
+            outline: none;
+            border-color: #499fdb;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Descubra se você é neurodivergênte</h1>
+    <center>
+    <h2>Testes de autoaplicação para identificação de traços de neurodiversidades em adultos</h2>
+    </center>
+    <div class="introduction">
+        <p>Os testes abaixo são traduções livres de testes em inglês, elaborados por pesquisadores reconhecidos no campo da neurociência ao longo de anos. Na página de cada teste você encontra o link do original caso prefira.</p>
+        <p>O objetivo de cada um destes testes é auxiliar o indivíduo a identificar se apresenta quantidade significativa de traços de algumas neurodiversidades, afim de considerar uma avaliação profissional adequada e completa.</p>
+    </div>
+    <div class="selection-container">
+        <label for="pageSelect">Escolha um teste:</label>
+        <select id="pageSelect" onchange="navigateToPage()">
+            <option value="">-- Selecione --</option>
+            <option value="AQ-50.html">Quociente do Espectro Autista - AQ50</option> <!-- Edite o título e o link -->
+            <option value="ASRS-18.html">Escala de autorrelato de TDAH em adultos - ASRS 18</option> <!-- Edite o título e o link -->
+            <option value="page3.html">Página 3</option> <!-- Edite o título e o link -->
+        </select>
+    </div>
+</div>
+
+<script>
+    function navigateToPage() {
+        const select = document.getElementById('pageSelect');
+        const selectedValue = select.value;
+        if (selectedValue) {
+            window.location.href = selectedValue;
+        }
+    }
+</script>
+</body>
+</html>
