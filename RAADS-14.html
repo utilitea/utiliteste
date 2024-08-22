@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
+    <title>Autismo adulto - 14 questões</title>
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814" type="image/png">
+    <meta property="og:title" content="Autismo adulto - 14 questões">
+    <meta property="og:description" content="Teste de identificação de traços autistas em adultos">
+    <meta property="og:image" content="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814">
+    <meta property="og:url" content="https://utilitea.glide.page">
+    <meta property="og:type" content="website">
+</head>
+    <style>
+        body {
+            font-family: Calibri;
+            margin: 20px;
+            font-size: 18px;
+            background-color: #B0C4DE;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            border-radius: 15px;
+        }
+        .progress {
+            height: 20px;
+            background-color: #038dff;
+            width: 0%;
+            text-align: center;
+            line-height: 20px;
+            color: transparent;
+            border-radius: 15px;
+        }
+        .question-container {
+            display: none;
+        }
+        .question-container.active {
+            display: block;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        .navigation-buttons button:hover {
+            transform: scale(1.1);
+            border-radius: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        .navigation-buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        h1 {
+            text-align: center;
+        }
+        .introduction {
+            border: none;
+            padding: 5px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            text-align: justify;
+        }
+        .question-container {
+            border: 1px solid #038dff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        #restartBtn {
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            width: auto;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+        }
+.result-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 80%;
+    max-width: 500px;
+}
+
+.popup-content h2 {
+    margin-top: 0;
+}
+
+.highlight {
+    color: red;
+    font-weight: bold;
+}
+
+#closePopupBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #499fdb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#closePopupBtn:hover {
+    background-color: #367c9b;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Autismo adulto - 14 questões</h1>
+    <div class="introduction">
+        <p>Esta é uma tradução livre do questionário oficial em inglês <a href="https://psychology-tools.com/test/autism-spectrum-quotient" target="_blank">Psychology Tools</a><b> e NÃO TEM VALIDADE COMO DIAGNÓSTICO</b></p>
+        <p><b>Instruções:</b> Para cada afirmação abaixo, escolha uma resposta que melhor se aplica a você:</p>
+    </div>
+    <div class="progress-bar">
+        <div id="progress" class="progress">0%</div>
+    </div>
+    
+    <form id="aq-test" method="post">
+        <div id="q1" class="question-container active">
+            <p>1. É difícil para mim entender como as outras pessoas estão se sentindo quando estamos conversando.</p>
+            <input type="radio" name="q1" value="3" required> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q1" value="2" required> Verdadeiro apenas agora<br>
+            <input type="radio" name="q1" value="1" required> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q1" value="0" required> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q2" class="question-container">
+            <p>2. Algumas texturas comuns que não incomodam outras pessoas me parecem muito ofensivas quando tocam minha pele.</p>
+            <input type="radio" name="q2" value="3" required> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q2" value="2" required> Verdadeiro apenas agora<br>
+            <input type="radio" name="q2" value="1" required> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q2" value="0" required> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q3" class="question-container">
+            <p>3. É muito difícil para mim trabalhar e funcionar em grupos.</p>
+            <input type="radio" name="q3" value="3" required> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q3" value="2" required> Verdadeiro apenas agora<br>
+            <input type="radio" name="q3" value="1" required> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q3" value="0" required> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q4" class="question-container">
+            <p>4. É difícil descobrir o que as outras pessoas esperam de mim.</p>
+            <input type="radio" name="q4" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q4" value="2" required></td> Verdadeiro apenas agora<br>
+            <input type="radio" name="q4" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q4" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q5" class="question-container">
+             <p>5. Eu só gosto de conversar com pessoas que compartilham meus interesses especiais.</p>
+             <input type="radio" name="q5" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+             <input type="radio" name="q5" value="2" required></td> Verdadeiro apenas agora<br>
+             <input type="radio" name="q5" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+             <input type="radio" name="q5" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q6" class="question-container">
+            <p>6. Eu fico chateado quando minhas coisas são movidas.</p>
+            <input type="radio" name="q6" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q6" value="2" required></td> Verdadeiro apenas agora<br>
+            <input type="radio" name="q6" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q6" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q7" class="question-container">
+            <p>7. É difícil para mim entender o significado das expressões faciais que as pessoas usam quando estamos conversando.</p>
+            <input type="radio" name="q7" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q7" value="2" required></td> Verdadeiro apenas agora<br>
+            <input type="radio" name="q7" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q7" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q8" class="question-container">
+            <p>8. Quando estou conversando com alguém, é difícil para mim entender se estou ou não incomodando eles.</p>
+            <input type="radio" name="q8" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q8" value="2" required></td> Verdadeiro apenas agora<br>
+            <input type="radio" name="q8" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q8" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q9" class="question-container">
+            <p>9. Quando estou em um lugar barulhento ou movimentado, eu sinto que preciso escapar.</p>
+            <input type="radio" name="q9" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q9" value="2" required></td> Verdadeiro apenas agora<br>
+            <input type="radio" name="q9" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q9" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q10" class="question-container">
+            <p>10. É difícil para mim entender a maneira que as outras pessoas interpretam o que eu digo.</p>
+            <input type="radio" name="q10" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q10" value="2" required></td> Verdadeiro apenas agora<br>
+            <input type="radio" name="q10" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q10" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q11" class="question-container">
+            <p>11. Pode ser muito difícil ler o rosto, as mãos e os movimentos do corpo de alguém quando estamos conversando.</p>
+            <input type="radio" name="q11" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q11" value="2" required></td> Verdadeiro apenas agora<br>
+            <input type="radio" name="q11" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q11" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q12" class="question-container">
+            <p>12. Eu me concentro nos detalhes em vez da ideia geral.</p>
+            <input type="radio" name="q12" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q12" value="2" required></td> Verdadeiro apenas agora<br>
+            <input type="radio" name="q12" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q12" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q13" class="question-container">
+            <p>13. Eu levo as coisas muito a sério, então muitas vezes não entendo o que as pessoas estão tentando dizer.</p>
+            <input type="radio" name="q13" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q13" value="2" required></td> Verdadeiro apenas agora<br>
+            <input type="radio" name="q13" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q13" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="q14" class="question-container">
+            <p>14. Fico extremamente chateado quando a maneira como gosto de fazer as coisas muda repentinamente.</p>
+            <input type="radio" name="q14" value="3" required></td> Verdadeiro agora e quando eu era adolescente (<17)<br>
+            <input type="radio" name="q14" value="2" required></td> Verdadeiro apenas agora<br>
+            <input type="radio" name="q14" value="1" required></td> Verdadeiro quando eu era adolescente (<17)<br>
+            <input type="radio" name="q14" value="0" required></td> Nunca verdadeiro<br>
+        </div>
+
+        <div id="result" class="result"></div>
+        <div class="navigation-buttons">
+            <button type="button" id="prevBtn">Anterior</button>
+            <button type="button" id="nextBtn">Próximo</button>
+            <button type="button" id="submitBtn" style="display:none;">Submeter</button>
+        </div>
+        <button type="button" id="restartBtn" style="display:none;">Reiniciar</button>
+    </form>
+</div>
+
+<script>
+    const totalQuestions = 14;
+    let currentQuestion = 1;
+
+    const questions = Array.from(document.querySelectorAll('.question-container'));
+    const progressBar = document.getElementById('progress');
+    const resultDiv = document.getElementById('result');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const restartBtn = document.getElementById('restartBtn');
+
+    function updateProgressBar() {
+        const progress = (currentQuestion / totalQuestions) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressBar.textContent = `${Math.round(progress)}%`;
+    }
+
+    function showQuestion(n) {
+        questions.forEach((q, index) => {
+            q.classList.toggle('active', index === n - 1);
+        });
+        prevBtn.style.display = n === 1 ? 'none' : 'inline-block';
+        restartBtn.style.display = n >= 2 ? 'inline-block' : 'none';
+        nextBtn.style.display = n === totalQuestions ? 'none' : 'inline-block';
+        submitBtn.style.display = n === totalQuestions ? 'inline-block' : 'none';
+        updateProgressBar();
+    }
+
+    function isQuestionAnswered(n) {
+        const question = document.querySelector(`input[name="q${n}"]:checked`);
+        return question !== null;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (isQuestionAnswered(currentQuestion)) {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            }
+        } else {
+            alert("Por favor, responda a pergunta antes de continuar.");
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentQuestion > 1) {
+            currentQuestion--;
+            showQuestion(currentQuestion);
+        }
+    });
+
+submitBtn.addEventListener('click', () => {
+    for (let i = 1; i <= totalQuestions; i++) {
+        if (!isQuestionAnswered(i)) {
+            alert(`Você não respondeu a pergunta ${i}. Por favor, responda todas as perguntas antes de submeter.`);
+            return;
+        }
+    }
+
+    const answers = Array.from(document.querySelectorAll('input[type="radio"]:checked')).map(input => parseInt(input.value, 10));
+    const totalScore = answers.reduce((a, b) => a + b, 0);
+
+    let resultText = `<h2>Resultado</h2>`;
+    resultText += `<p>Pontuação Total: ${totalScore}</p>`;
+
+    if (totalScore > 20) {
+        resultText += `<p class="highlight" style="color: #FF0000; font-weight: bold;">Alta probabilidade de autismo.</p><p>Recomendado procurar avaliação profissional.</p>`;
+    } else if (totalScore <= 20 && totalScore > 10) {
+        resultText += `<p class="highlight" style="color: #FF8C00; font-weight: bold;">Traços de autismo identificados.</p><p> Considere procurar avaliação profissional.</p>`;
+    } else {
+        resultText += `<p>Baixa probabilidade de traços do espectro autista.</p>`;
+    }
+
+    const popup = document.createElement('div');
+    popup.className = 'result-popup';
+    popup.innerHTML = `
+        <div class="popup-content">
+            ${resultText}
+            <button id="closePopupBtn">Fechar</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+
+    document.getElementById('closePopupBtn').addEventListener('click', () => {
+        popup.remove();
+    });
+});
+
+
+restartBtn.addEventListener('click', () => {
+    if (confirm("Todas as questões marcadas serão apagadas. Deseja realmente reiniciar o teste?")) {
+        currentQuestion = 1;
+        questions.forEach((q) => {
+            const inputs = q.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => input.checked = false);
+        });
+        showQuestion(currentQuestion);
+        resultDiv.innerHTML = '';
+        resultDiv.style.display = 'none';
+        restartBtn.style.display = 'none';
+    }
+});
+
+    // Mostrar a primeira questão
+    showQuestion(currentQuestion);
+
+</script>
+</body>
+</html>
