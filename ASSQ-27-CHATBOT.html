@@ -297,14 +297,13 @@ function handleUserResponse(button, response) {
     // Atualize a resposta para a pergunta atual
     answers[currentQuestion] = response;
 
-    setTimeout(() => {
+    // Recalcule o resultado se já estiver na última pergunta
+    if (currentQuestion === questions.length - 1) {
+        submitForm();
+    } else {
         currentQuestion++;
-        if (currentQuestion < questions.length) {
         showNextQuestion();
-        } else {
-            submitForm(); // Submete o formulário automaticamente após a última resposta
-        }
-    }, 500);
+    }
 }
 
 
