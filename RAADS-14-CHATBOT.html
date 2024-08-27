@@ -264,7 +264,7 @@
             const optionsContainer = document.createElement('div');
             optionsContainer.className = 'options';
 
-            const options = ["🙁 Verdade agora e quando eu era adolescente (<17)", "🤔 Verdade apenas agora", "😊 Verdade só na adolescência (<17)", "🤔 Mentira"];
+            const options = ["🙁 Verdade agora e na adolescência (<17)", "🤔 Verdade apenas agora", "😊 Verdade só na adolescência (<17)", "🤥 Mentira"];
 
             options.forEach(option => {
                 const button = document.createElement('button');
@@ -310,8 +310,8 @@ function submitForm() {
     const score = answers.reduce((total, answer) => {
         if (answer === "😊 Verdade só na adolescência (<17)") return total + 3;
         if (answer === "🤔 Verdade apenas agora") return total + 2;
-        if (answer === "🙁 Verdade agora e quando eu era adolescente (<17)") return total + 1;
-        return total; // "🤔 Mentira" = 0 ponto
+        if (answer === "🙁 Verdade agora e na adolescência (<17)") return total + 1;
+        return total; // "🤥 Mentira" = 0 ponto
     }, 0);
 
     let resultMessage = `<span style='color:#0357ab; font-weight:bold;'>Resultado: ${score} pontos.</span> `;
