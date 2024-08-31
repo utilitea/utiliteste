@@ -3,386 +3,617 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEA - Crianças | Adolescentes - 27</title>
-    <meta property="og:title" content="TEA - Crianças | Adolescentes - 27">
-    <meta property="og:description" content="Triagem para identificação de traços do (TEA) em crianças e adolescentes.">
-    <meta property="og:image" content="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814">
-    <meta property="og:url" content="https://utilitea.glide.page">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="utiliTEA">
-    <meta property="og:locale" content="pt_BR">
+    <title>TEA.Crianças.Adolescentes.27</title>
+    <meta property="og:title" content="Triagem de autismo em crianças 27 perguntas">
+    <meta property="og:description" content="27 questões">
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/176923283?v=4">
     <style>
-        body {
-            font-family: San Francisco, sans-serif;
-            background-color: linear-gradient(to right, #007aff, #00c6ff);
+        body, html {
             margin: 0;
             padding: 0;
+            font-family: Calibri, Sans serif;
+            background-color: #e6f0fa;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             height: 100vh;
-            overflow: hidden;
+            background-color: white;
+            margin: 0 auto;
+            transition: background-color 0.3s ease;
         }
 
-        #header {
-            width: 100%;
-            background: linear-gradient(90deg, #0073e6, #499fdb);
-            color: #fff;
+        .chat-header {
+            background: linear-gradient(135deg, #87CEEB, #00BFFF);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            position: relative;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            padding: 10px;
+            justify-content: center;
+            height: 70px;
         }
 
-        #header img {
-            width: 40px;
+        .chat-header img {
+            position: absolute;
+            left: 10px;
             height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
+            max-height: 80%;
         }
 
-        #header h1 {
-            font-size: 18px;
-            margin: 0;
+        .chat-header-subtitle {
+            font-size: 12px;
+            font-weight: normal;
+            margin-top: 5px;
         }
 
-        #chat-container {
+        .chat-content {
             flex: 1;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
         }
-        
-        #submit-btn {
-            display: none;
-        }
 
-
-        .message {
-    padding: 12px 20px;
-    border-radius: 18px; /* Arredondamento das bordas */
-    margin: 10px 0;
-    max-width: 75%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adiciona sombra suave */
-}
-
-        .bot {
-            background-color: #e0e0e0;
+        .chat-bubble {
+            background-color: #00BFFF;
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            max-width: 80%;
             align-self: flex-start;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
         }
 
-        .user {
-            background-color: #0084ff;
-            color: #fff;
-            align-self: flex-end;
+        .chat-bubble:hover {
+            transform: scale(1.02);
+        }
+
+        .chat-bubble:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent #00BFFF transparent transparent;
+        }
+
+        .response-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            margin-bottom: 20px;
+        }
+
+        .response-buttons button {
+            flex: 1 1 calc(50% - 20px);
+            max-width: calc(50% - 20px);
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background-color: #d9eaf7;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .response-buttons button:hover {
+            background-color: #00CED1;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .response-buttons button:active {
+            transform: scale(0.95);
+        }
+
+        .response-buttons button.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .chat-footer {
+            padding: 10px;
+            background-color: #f0f0f0;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-footer p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .restart-button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background-color: #ff4d4d;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .restart-button:hover {
+            background-color: #ff1a1a;
         }
 
         .typing-indicator {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background-color: #999;
-            border-radius: 50%;
-            margin-right: 5px;
-            animation: blink 1s infinite;
-        }
-
-        .dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes blink {
-            0% { opacity: 0.2; }
-            20% { opacity: 1; }
-            100% { opacity: 0.2; }
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            margin-top: 10px;
-        }
-
-        .option-btn {
-            padding: 10px;
-            margin: 5px 0;
-            border: none;
-            border-radius: 18px;
-            cursor: pointer;
-            background-color: #499fdb;
-            color: #fff;
-            text-align: left;
-            transition: transform 0.1s ease-in-out;
-        }
-        .option-btn:active {
-            transform: scale(0.95);
-        }
-
-        .option-btn:hover,
-        .option-btn.selected {
-            background-color: #1a3387;
-        }
-
-        #admin-message {
-            width: 100%;
-            background-color: #000;
-            color: #999;
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
-
-        #action-buttons {
             display: none;
-            padding: 10px;
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-size: 12px;
+            color: #aaa;
+            margin: 5px 0;
+            text-align: left;
+            align-self: flex-start;
         }
 
-        #action-buttons button {
-    padding: 10px;
-    margin-top: 10px;
-    width: 100%;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    background-color: #007aff; /* Azul do iPhone */
-    color: #fff;
-    font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para estilo */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease-in-out;
-}
-#action-buttons button:active {
-            transform: scale(0.95);
+        .result-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
         }
 
-#action-buttons button:hover {
-    background-color: #1a3387;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Sombra mais intensa no hover */
-}
+        .result-popup h2 {
+            color: #4682B4;
+            font-weight: bold;
+        }
 
-.message-bubble {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
+        .result-popup p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
 
+        .result-blue { color: blue; }
+        .result-orange { color: orange; }
+        .result-red { color: red; }
 
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .dissolve {
+            animation: dissolve 1s forwards;
+        }
+
+        @keyframes dissolve {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
     </style>
 </head>
 <body>
-    <div id="header">
-        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEh40Eulpe-YZG7lV9fvJJRnmd9ZurKrH4GhrSzziAPiGdLqjuOX-xNDcYews2dBUpHqvfVozuL22ISDNktw8yMGvRPMkl6Ykc_KF7uQ87UiaVkT0o8fdYgcEaUWP6Y9oMSVDcQSkM8N-McMsNF_RO59R5z_-O2fDANLR8gF03M3LwcskULu_mwM6IVxe7nu=s814" alt="Logo">
-        <h1>TEA - Crianças | Adolescentes - 27</h1>
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <img src="https://avatars.githubusercontent.com/u/176923283?v=4" alt="Logo">
+            TEA.Crianças.Adolescentes.27
+            <div class="chat-header-subtitle">
+                Triagem de traços autísticos em crianças e adolescentes 27 perguntas
+            </div>
+        </div>
+        <div class="chat-content" id="chatContent">
+            <div class="chat-bubble"><p>Esta é uma ferramenta de triagem para identificação de traços autísticos em crianças e adolescentes, por meio de <b>27 perguntas</b>, que pode servir de alerta em casos que merecem <b>buscar uma avaliação profissional adequada</b></p><p>Esse chat é uma tradução livre do teste original, <b>ASSQ</b>, que se encontra em inglês e com todas as informações de fonte e pesquisadores responsáveis na página <a href='https://psychology-tools.com/test/autism-spectrum-screening-questionnaire' target='_blank'>Psychology Tools</a>.<p><b>Instrução:</p><p> Marque as opções que mais se parecem com a criança/adolescente em questão:</p></div>
+        </div>
+        <div class="chat-footer">
+            <p>Somente admins podem enviar mensagens</p>
+            <button class="restart-button" id="restartButton">Reiniciar</button>
+        </div>
     </div>
 
-    <div id="chat-container"></div>
-    
-    <div id="action-buttons">
-        <button id="submit-btn">Submeter</button>
-        <button id="reset-btn">Reiniciar teste</button>
+    <div class="result-popup" id="resultPopup">
+        <h2>Resultado</h2>
+        <p id="resultText"></p>
     </div>
 
     <script>
-        let currentQuestion = 0;
-        let answers = [];
         const questions = [
-            "<b>01/27:</b> Age como se fosse muito velha ou muito nova para sua idade?",
-            "<b>02/27:</b> Outras crianças acham que ele(a) se comporta como um professor(a) diferente?",
-            "<b>03/27:</b> Vive um pouco no seu próprio mundo, com interesses muito específicos e diferentes dos outros?",
-            "<b>04/27:</b> Sabe muitos detalhes sobre certos assuntos, mas não entende o que eles realmente significam?",
-            "<b>05/27:</b> Entende as palavras e expressões exatamente como são ditas, sem perceber duplos sentidos ou metáforas?",
-            "<b>06/27:</b> Fala de um jeito muito formal, esquisito, antiquado ou como um robô?",
-            "<b>07/27:</b> Inventa palavras e expressões próprias?",
-            "<b>08/27:</b> Tem uma voz ou maneira de falar diferente das outras pessoas?",
-            "<b>09/27:</b> Faz sons sem querer, como limpar a garganta, grunhir, estalar, chorar ou gritar?",
-            "<b>10/27:</b> É muito bom em algumas coisas, mas muito ruim em outras?",
-            "<b>11/27:</b> Fala bastante, mas não ajusta o que diz de acordo com a situação ou as pessoas?",
-            "<b>12/27:</b> Não consegue se colocar no lugar dos outros?",
-            "<b>13/27:</b> Fala coisas ingênuas ou que deixam os outros envergonhados?",
-            "<b>14/27:</b> tem um olhar diferente dos outros?",
-            "<b>15/27:</b> Quer ser sociável, mas tem dificuldade em fazer amigos?",
-            "<b>16/27:</b> Consegue ficar com outras crianças, mas só quando tudo é do jeito dele(a)?",
-            "<b>17/27:</b> Não tem um melhor amigo?",
-            "<b>18/27:</b> Não tem muito bom senso?",
-            "<b>19/27:</b> Não é bom em jogos: não sabe como trabalhar em equipe e às vezes faz pontos contra si mesmo(a)?",
-            "<b>20/27:</b> Tem movimentos ou gestos desajeitados, descoordenados ou desengonçados?",
-            "<b>21/27:</b> Faz movimentos involuntários com o rosto ou o corpo?",
-            "<b>22/27:</b> Tem dificuldade em completar tarefas diárias simples por causa de repetição compulsiva de ações ou pensamentos?",
-            "<b>23/27:</b> Tem rotinas fixas e não gosta de mudanças?",
-            "<b>24/27:</b> Fica muito apegado(a) a certos objetos de maneira incomum?",
-            "<b>25/27:</b> Outras crianças fazem bullying com ele(a)?",
-            "<b>26/27:</b> Tem expressões faciais que parecem diferentes ou estranhas?",
-            "<b>27/27:</b> Tem uma postura corporal diferente ou estranha?",
-            // Adicione mais perguntas aqui...
+            {
+                text: '<b>01/27:</b> Age como se fosse muito velha ou muito nova para sua idade?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>02/27:</b> Outras crianças acham que ele(a) se comporta como um professor(a) diferente?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>03/27:</b> Vive um pouco no seu próprio mundo, com interesses muito específicos e diferentes dos outros?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>04/27:</b> Sabe muitos detalhes sobre certos assuntos, mas não entende o que eles realmente significam?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>05/27:</b> Entende as palavras e expressões exatamente como são ditas, sem perceber duplos sentidos ou metáforas?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>06/27:</b> Fala de um jeito muito formal, esquisito, antiquado ou como um robô?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>07/27:</b> Inventa palavras e expressões próprias?',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>08/27:</b> Tem uma voz ou maneira de falar diferente das outras pessoas?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>09/27:</b> Faz sons sem querer, como limpar a garganta, grunhir, estalar, chorar ou gritar?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>10/27:</b> É muito bom em algumas coisas, mas muito ruim em outras?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>11/27:</b> Fala bastante, mas não ajusta o que diz de acordo com a situação ou as pessoas?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>12/27:</b> Não consegue se colocar no lugar dos outros?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>13/27:</b> Fala coisas ingênuas ou que deixam os outros envergonhados?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>14/27:</b> Tem um estilo de olhar desviante?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>15/27:</b> Quer ser sociável, mas tem dificuldade em fazer amigos?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>16/27:</b> Consegue ficar com outras crianças, mas só quando tudo é do jeito dele(a)?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>17/27:</b> Não tem um melhor amigo?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>18/27:</b> Não tem muito bom senso?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>19/27:</b> Não é bom em jogos: não sabe como trabalhar em equipe e às vezes faz pontos contra si mesmo(a)?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>20/27:</b> Tem movimentos ou gestos desajeitados, descoordenados ou desengonçados?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>21/27:</b> Faz movimentos involuntários com o rosto ou o corpo?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>22/27:</b> Tem dificuldade em completar tarefas diárias simples por causa de repetição compulsiva de ações ou pensamentos?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>23/27:</b> Tem rotinas fixas e não gosta de mudanças?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>24/27:</b> Fica muito apegado(a) a certos objetos de maneira incomum?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>25/27:</b> Outras crianças fazem bullying com ele(a)?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>26/27:</b> Tem expressões faciais que parecem diferentes ou estranhas?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+            {
+                text: '<b>27/27:</b> Tem uma postura corporal diferente ou estranha?</b>',
+                options: [
+                    { text: 'Sim', value: 2 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Não', value: 0 }
+
+                ]
+            },
+
+            // Adicione mais questões aqui
         ];
 
-        async function addMessage(message, sender) {
-            const chatContainer = document.getElementById('chat-container');
+        let currentQuestionIndex = 0;
+
+        function scrollToBottom() {
+            const chatContent = document.getElementById('chatContent');
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        function displayQuestion(index) {
+            const chatContent = document.getElementById('chatContent');
+            const question = questions[index];
 
             const typingIndicator = document.createElement('div');
             typingIndicator.className = 'typing-indicator';
-            typingIndicator.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-            chatContainer.appendChild(typingIndicator);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            typingIndicator.innerText = 'Digitando...';
+            chatContent.appendChild(typingIndicator);
+            typingIndicator.style.display = 'block';
+            scrollToBottom();
 
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            setTimeout(() => {
+                chatContent.removeChild(typingIndicator);
 
-            chatContainer.removeChild(typingIndicator);
+                const questionBubble = document.createElement('div');
+                questionBubble.className = 'chat-bubble';
+                questionBubble.innerHTML = question.text;
+                chatContent.appendChild(questionBubble);
 
-            const messageElement = document.createElement('div');
-            messageElement.className = 'message ' + sender;
-            messageElement.innerHTML = message;
-            chatContainer.appendChild(messageElement);
+                scrollToBottom();
 
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+                const responseButtons = document.createElement('div');
+                responseButtons.className = 'response-buttons';
+                question.options.forEach((option, i) => {
+                    setTimeout(() => {
+                        const button = document.createElement('button');
+                        button.innerText = option.text;
+                        button.onclick = () => handleResponse(index, option.value, button);
 
-            await new Promise(resolve => setTimeout(resolve, 500));
+                        if (question.selectedValue === option.value) {
+                            button.classList.add('active');
+                        }
+
+                        responseButtons.appendChild(button);
+                        scrollToBottom();
+                    }, i * 500);
+                });
+
+                chatContent.appendChild(responseButtons);
+                scrollToBottom();
+            }, 1000);
         }
 
-        async function startForm() {
-            await addMessage("<p>Olá, esta é uma ferramenta de triagem projetada para identificação de traços autísticos em crianças e adolescentes, por meio de <b>27 perguntas</b>, para chamar a atenção em casos que merecem <b>buscar uma avaliação profissional adequada</b></p><p>Esse chat é uma tradução livre do teste original, <b>ASSQ</b>, que se encontra em inglês na página <a href='https://psychology-tools.com/test/autism-spectrum-screening-questionnaire' target='_blank'>Psychology Tools</a>.</p><p><b>Fonte:</b><a href='https://pubmed.ncbi.nlm.nih.gov/10382133/' target='_blank'>S Ehlers, C Gillberg, L Wing. A screening questionnaire for Asperger syndrome and other high-functioning autism spectrum disorders in school age children. J Autism Dev Disord. 1999; 29(2): 129–141</a>.</p><p><b>Instruções: 1)</b> Se marcar uma opção errada, reinicie o teste para evitar erro no resultado!</p><p><b>2)</b> Considere se a criança em questão se destaca das outras crianças de sua idade nos seguintes aspectos...</p>", "bot");
-            
-            showNextQuestion();
-        }
+        function handleResponse(index, value, button) {
+            const responseButtons = button.parentElement;
+            const buttons = responseButtons.getElementsByTagName('button');
 
-        async function showNextQuestion() {
-            if (currentQuestion < questions.length) {
-                await addMessage(questions[currentQuestion], "bot");
-                showOptions();
+            for (let btn of buttons) {
+                btn.classList.remove('active');
+            }
+
+            button.classList.add('active');
+            questions[index].selectedValue = value;
+
+            if (index === currentQuestionIndex) {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion(currentQuestionIndex);
+                } else {
+                    showResult();
+                }
             } else {
-                showActionButtons();
+                updateResult();
             }
         }
 
-        function showOptions() {
-            const chatContainer = document.getElementById('chat-container');
-            const optionsContainer = document.createElement('div');
-            optionsContainer.className = 'options';
+        function updateResult() {
+            if (currentQuestionIndex < questions.length) return;
 
-            const options = ["🙁 Não", "🤔 Às vezes", "😊 Sim"];
+            const resultPopup = document.getElementById('resultPopup');
+            const resultText = document.getElementById('resultText');
+            let totalScore = 0;
 
-            options.forEach(option => {
-                const button = document.createElement('button');
-                button.className = 'option-btn';
-                button.innerText = option;
-                button.onclick = () => handleUserResponse(button, option);
-                optionsContainer.appendChild(button);
+            questions.forEach(question => {
+                if (question.selectedValue !== undefined) {
+                    totalScore += question.selectedValue;
+                }
             });
 
-            chatContainer.appendChild(optionsContainer);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            let resultMessage = '';
+            if (totalScore <= 13) {
+                resultMessage = `<span class="result-blue">Pontuações até 13 apresentam baixa probabilidade de autismo.</span>`;
+            } else if (totalScore <= 22) {
+                resultMessage = `<span class="result-orange">Pontuações de 13 a 22 apresentam traços consideráveis de autismo. Considere procurar avaliação profissional.</span>`;
+            } else {
+                resultMessage = `<span class="result-red">Pontuções acima de 22 tem alta probabilidade de autismo. Recomendado procurar avaliação profissional.</span>`;
+            }
+
+            resultText.innerHTML = `Sua pontuação foi ${totalScore} de um total possível de 54. ${resultMessage}`;
+            resultPopup.style.display = 'block';
+
+            setTimeout(() => {
+                resultPopup.style.display = 'none';
+            }, 15000);
         }
 
-function handleUserResponse(button, response) {
-    const buttons = button.parentElement.querySelectorAll('.option-btn');
-    buttons.forEach(btn => btn.classList.remove('selected'));
-    button.classList.add('selected');
-
-    // Atualize a resposta para a pergunta atual
-    answers[currentQuestion] = response;
-
-    // Recalcule o resultado se já estiver na última pergunta
-    if (currentQuestion === questions.length - 1) {
-        submitForm();
-    } else {
-        currentQuestion++;
-        showNextQuestion();
-    }
-}
-
-
-        function showActionButtons() {
-            const actionButtons = document.getElementById('action-buttons');
-            actionButtons.style.display = 'flex';
-
-            const chatContainer = document.getElementById('chat-container');
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+        function showResult() {
+            updateResult();
         }
 
-function submitForm() {
-    // Verifique se todas as perguntas foram respondidas
-    const unanswered = answers.some(answer => answer === null);
-    if (unanswered) {
-        alert("Por favor, responda todas as perguntas antes de submeter.");
-        return;
-    }
+        function restartChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.classList.add('dissolve');
 
-    // Calcule a pontuação com base nas respostas
-    const score = answers.reduce((total, answer) => {
-        if (answer === "😊 Sim") return total + 2;
-        if (answer === "🤔 Às vezes") return total + 1;
-        return total; // "🙁 Não" = 0 ponto
-    }, 0);
+            setTimeout(() => {
+                location.reload(); // Atualiza a página
+            }, 1000);
+        }
 
-    let resultMessage = `<span style='color:#0357ab; font-weight:bold;'>Resultado: ${score} pontos.</span> `;
+        document.getElementById('restartButton').onclick = restartChat;
 
-    if (score <= 10) {
-        resultMessage += "<span style='color:#0357ab;'><b>Baixo índice de traços de TEA.</b></span>";
-    } else if (score <= 20) {
-        resultMessage += "<span style='color:#bf7e08;'><b>Médio índice de traços de TEA. Considere falar com um profissional.</b></span>";
-    } else {
-        resultMessage += "<span style='color:#a8020a;'><b>Alto índice de traços autísticos. Procure uma avaliação profissional.</b></span>";
-    }
-
-    // Exibir o resultado em um pop-up centralizado
-    const resultPopup = document.createElement('div');
-    resultPopup.style.position = 'fixed';
-    resultPopup.style.top = '50%';
-    resultPopup.style.left = '50%';
-    resultPopup.style.transform = 'translate(-50%, -50%)';
-    resultPopup.style.backgroundColor = '#fff';
-    resultPopup.style.padding = '20px';
-    resultPopup.style.borderRadius = '10px';
-    resultPopup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
-    resultPopup.style.zIndex = '1000';
-    resultPopup.style.textAlign = 'justify'; // Texto justificado
-    resultPopup.innerHTML = resultMessage; // Usar innerHTML para permitir HTML
-
-    // Centralizar o texto e torná-lo responsivo
-    resultPopup.style.display = 'flex';
-    resultPopup.style.flexDirection = 'column';
-    resultPopup.style.alignItems = 'center';
-    resultPopup.style.width = '80%';
-    resultPopup.style.maxWidth = '500px';
-    resultPopup.style.textAlign = 'center';
-
-    document.body.appendChild(resultPopup);
-
-    setTimeout(() => {
-        document.body.removeChild(resultPopup);
-    }, 20000); // Pop-up desaparece após 20 segundos
-}
-
-
-function resetForm() {
-    currentQuestion = 0;
-    answers = new Array(questions.length).fill(null); // Reinicia as respostas como null
-    document.getElementById('chat-container').innerHTML = '';
-    document.getElementById('action-buttons').style.display = 'none';
-    startForm();
-}
-
-document.getElementById('submit-btn').onclick = submitForm;
-document.getElementById('reset-btn').onclick = resetForm;
-
-startForm();    
-
-</script>
+        window.onload = () => {
+            displayQuestion(currentQuestionIndex);
+        };
+    </script>
 </body>
 </html>
