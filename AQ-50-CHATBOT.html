@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEA.Adulto.50</title>
+    <meta property="og:title" content="Triagem de autismo em adultos">
+    <meta property="og:description" content="50 questões">
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/176923283?v=4">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Calibri, Sans serif;
+            background-color: #e6f0fa;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: white;
+            margin: 0 auto;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #4a90e2, #007bff);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+        }
+
+        .chat-header img {
+            position: absolute;
+            left: 10px;
+            height: 40px;
+            max-height: 80%;
+        }
+
+        .chat-header-subtitle {
+            font-size: 12px;
+            font-weight: normal;
+            margin-top: 5px;
+        }
+
+        .chat-content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-bubble {
+            background-color: #4a90e2;
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            align-self: flex-start;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .chat-bubble:hover {
+            transform: scale(1.02);
+        }
+
+        .chat-bubble:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent #4a90e2 transparent transparent;
+        }
+
+        .response-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            margin-bottom: 20px;
+        }
+
+        .response-buttons button {
+            flex: 1 1 calc(50% - 20px);
+            max-width: calc(50% - 20px);
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background-color: #d9eaf7;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .response-buttons button:hover {
+            background-color: #4a90e2;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .response-buttons button:active {
+            transform: scale(0.95);
+        }
+
+        .response-buttons button.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .chat-footer {
+            padding: 10px;
+            background-color: #f0f0f0;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-footer p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .restart-button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background-color: #ff4d4d;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .restart-button:hover {
+            background-color: #ff1a1a;
+        }
+
+        .typing-indicator {
+            display: none;
+            font-size: 12px;
+            color: #aaa;
+            margin: 5px 0;
+            text-align: left;
+            align-self: flex-start;
+        }
+
+        .result-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-popup h2 {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .result-popup p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        .result-blue { color: blue; }
+        .result-orange { color: orange; }
+        .result-red { color: red; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .dissolve {
+            animation: dissolve 1s forwards;
+        }
+
+        @keyframes dissolve {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <img src="https://avatars.githubusercontent.com/u/176923283?v=4" alt="Logo">
+            TEA.Adulto.50
+            <div class="chat-header-subtitle">
+                Triagem de traços autísticos em adultos 50 perguntas
+            </div>
+        </div>
+        <div class="chat-content" id="chatContent">
+            <div class="chat-bubble"><p>Esta é uma ferramenta de triagem para identificação de traços autísticos em adultos, por meio de <b>50 perguntas</b>, e que pode servir de alerta em casos que merecem <b>buscar uma avaliação profissional adequada</b></p><p>Esse chat é uma tradução livre do teste original, <b>AQ</b>, que se encontra em inglês e com todas as informações de fonte e pesquisadores responsáveis na página <a href='https://psychology-tools.com/test/autism-spectrum-quotient' target='_blank'>Psychology Tools</a>.<p><b>Instrução:</p><p>Para cada afirmação abaixo, escolha uma resposta que melhor se aplica a você.</p></div>
+        </div>
+        <div class="chat-footer">
+            <p>Somente o chatbot pode enviar mensagens</p>
+            <button class="restart-button" id="restartButton">Reiniciar</button>
+        </div>
+    </div>
+
+    <div class="result-popup" id="resultPopup">
+        <h2>Resultado</h2>
+        <p id="resultText"></p>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                text: '<b>01/50:</b> Eu prefiro fazer as coisas com os outros do que sozinho.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>02/50:</b> Eu prefiro fazer as coisas do mesmo jeito repetidamente.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>03/50:</b> Se eu tento imaginar algo, acho muito fácil criar uma imagem na minha mente.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>04/50:</b> Eu frequentemente fico tão absorvido em uma coisa que perco a noção de outras coisas.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>05/50:</b> Eu frequentemente noto sons baixos quando outros não notam.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>06/50:</b> Eu geralmente noto placas de carro ou sequências semelhantes de informações.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>07/50:</b> Outras pessoas frequentemente me dizem que o que eu disse é indelicado, mesmo que eu ache que é educado.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>08/50:</b> Quando estou lendo uma história, posso facilmente imaginar como os personagens podem ser.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>09/50:</b> Eu sou fascinado por datas.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>10/50:</b> Em um grupo social, posso facilmente acompanhar as conversas de várias pessoas diferentes.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>11/50:</b> Eu acho fácil situações sociais.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>12/50:</b> Eu costumo notar detalhes que outros não notam.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>13/50:</b> Eu preferiria ir a uma biblioteca do que a uma festa.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>14/50:</b> Eu acho fácil criar histórias.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>15/50:</b> Eu me sinto mais atraído por pessoas do que por coisas.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>16/50:</b> Eu costumo ter interesses muito fortes, que me deixam chateado se não posso persegui-los.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>17/50:</b> Eu gosto de conversas casuais.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>18/50:</b> Quando eu falo, não é sempre fácil para os outros conseguirem uma palavra.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>19/50:</b> Eu sou fascinado por números.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>20/50:</b> Quando estou lendo uma história, acho difícil entender as intenções dos personagens.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>21/50:</b> Eu não gosto de situações que envolvem muitos eventos inesperados.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>22/50:</b> Eu prefiro coletar informações sobre categorias de coisas (por exemplo, tipos de carros, tipos de pássaros, tipos de trens) do que sobre coisas particulares (por exemplo, um carro, um pássaro, um trem específico).</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>23/50:</b> Eu costumo perceber detalhes que outros não percebem.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>24/50:</b> Eu costumo ter dificuldade em entender as intenções das pessoas.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>25/50:</b> Eu só noto um erro se ele é muito óbvio.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>26/50:</b> Eu costumo notar pequenos sons que outros não notam.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>27/50:</b> Eu gosto de colecionar informações sobre categorias de coisas (por exemplo, tipos de carros, tipos de pássaros, tipos de trens).</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>28/50:</b> Eu encontro padrões em todos os aspectos da vida.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>29/50:</b> Eu prefiro fazer as coisas do mesmo jeito repetidamente.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>30/50:</b> Eu noto padrões em todos os lugares.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>31/50:</b> Eu acho difícil entender o que as pessoas realmente significam quando dizem algo.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>32/50:</b> Eu sou fascinado por números.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>33/50:</b> Eu costumo entender as intenções das pessoas.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>34/50:</b> Eu noto pequenos sons que outros não notam.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>35/50:</b> Eu me sinto confortável em situações sociais.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>36/50:</b> Eu percebo padrões em todos os lugares.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>37/50:</b> Eu me sinto à vontade em situações sociais.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>38/50:</b> Eu prefiro fazer as coisas do meu jeito.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>39/50:</b> Eu não tenho dificuldade em entender piadas.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>40/50:</b> Eu prefiro fazer as coisas sozinho.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>41/50:</b> Eu costumo perceber pequenos detalhes que outros não percebem.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>42/50:</b> Eu tenho dificuldade em entender o que as pessoas realmente querem dizer.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>43/50:</b> Eu costumo perceber coisas que outros não percebem.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>44/50:</b> Eu me sinto confortável em situações sociais.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>45/50:</b> Eu percebo pequenos detalhes que outros não percebem.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>46/50:</b> Eu costumo seguir rotinas.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 1 },
+                    { text: 'Concordo Parcialmente', value: 1 },
+                    { text: 'Discordo Parcialmente', value: 0 },
+                    { text: 'Discordo Totalmente', value: 0 }
+                ]
+            },
+            {
+                text: '<b>47/50:</b> Eu acho difícil entender as intenções das pessoas.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>48/50:</b> Eu acho fácil entender o que as pessoas realmente querem dizer.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>49/50:</b> Eu noto padrões em todos os lugares.</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            {
+                text: '<b>50/50:</b> Eu gosto de colecionar informações sobre categorias de coisas (por exemplo, tipos de carros, tipos de pássaros, tipos de trens).</b>',
+                options: [
+                    { text: 'Concordo Totalmente', value: 0 },
+                    { text: 'Concordo Parcialmente', value: 0 },
+                    { text: 'Discordo Parcialmente', value: 1 },
+                    { text: 'Discordo Totalmente', value: 1 }
+                ]
+            },
+            // Adicione mais questões aqui
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function scrollToBottom() {
+            const chatContent = document.getElementById('chatContent');
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        function displayQuestion(index) {
+            const chatContent = document.getElementById('chatContent');
+            const question = questions[index];
+
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator';
+            typingIndicator.innerText = 'Digitando...';
+            chatContent.appendChild(typingIndicator);
+            typingIndicator.style.display = 'block';
+            scrollToBottom();
+
+            setTimeout(() => {
+                chatContent.removeChild(typingIndicator);
+
+                const questionBubble = document.createElement('div');
+                questionBubble.className = 'chat-bubble';
+                questionBubble.innerHTML = question.text;
+                chatContent.appendChild(questionBubble);
+
+                scrollToBottom();
+
+                const responseButtons = document.createElement('div');
+                responseButtons.className = 'response-buttons';
+                question.options.forEach((option, i) => {
+                    setTimeout(() => {
+                        const button = document.createElement('button');
+                        button.innerText = option.text;
+                        button.onclick = () => handleResponse(index, option.value, button);
+
+                        if (question.selectedValue === option.value) {
+                            button.classList.add('active');
+                        }
+
+                        responseButtons.appendChild(button);
+                        scrollToBottom();
+                    }, i * 500);
+                });
+
+                chatContent.appendChild(responseButtons);
+                scrollToBottom();
+            }, 1000);
+        }
+
+        function handleResponse(index, value, button) {
+            const responseButtons = button.parentElement;
+            const buttons = responseButtons.getElementsByTagName('button');
+
+            for (let btn of buttons) {
+                btn.classList.remove('active');
+            }
+
+            button.classList.add('active');
+            questions[index].selectedValue = value;
+
+            if (index === currentQuestionIndex) {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion(currentQuestionIndex);
+                } else {
+                    showResult();
+                }
+            } else {
+                updateResult();
+            }
+        }
+
+        function updateResult() {
+            if (currentQuestionIndex < questions.length) return;
+
+            const resultPopup = document.getElementById('resultPopup');
+            const resultText = document.getElementById('resultText');
+            let totalScore = 0;
+
+            questions.forEach(question => {
+                if (question.selectedValue !== undefined) {
+                    totalScore += question.selectedValue;
+                }
+            });
+
+            let resultMessage = '';
+            if (totalScore <= 26) {
+                resultMessage = `<span class="result-blue">Pontuações na faixa de 0 a 25 indicam poucos ou nenhum traço autista.</span>`;
+            } else if (totalScore <= 32) {
+                resultMessage = `<span class="result-orange">Pontuações na faixa de 26 a 32 indicam alguns traços autistas. Considere procurar avaliação profissional.</span>`;
+            } else {
+                resultMessage = `<span class="result-red">Pontuações na faixa de 33 a 50 indicam traços autistas significativos. Recomendado procurar avaliação profissional.</span>`;
+            }
+
+            resultText.innerHTML = `Sua pontuação foi ${totalScore} de um total de 50. ${resultMessage}`;
+            resultPopup.style.display = 'block';
+
+            setTimeout(() => {
+                resultPopup.style.display = 'none';
+            }, 15000);
+        }
+
+        function showResult() {
+            updateResult();
+        }
+
+        function restartChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.classList.add('dissolve');
+
+            setTimeout(() => {
+                location.reload(); // Atualiza a página
+            }, 1000);
+        }
+
+        document.getElementById('restartButton').onclick = restartChat;
+
+        window.onload = () => {
+            displayQuestion(currentQuestionIndex);
+        };
+    </script>
+</body>
+</html>
