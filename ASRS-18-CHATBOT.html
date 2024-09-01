@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEA.Crianças.Adolescentes.27</title>
-    <meta property="og:title" content="Triagem de autismo em crianças e adolescentes">
-    <meta property="og:description" content="27 questões">
+    <title>TDAH.Adulto.18</title>
+    <meta property="og:title" content="Triagem de TDAH em adultos">
+    <meta property="og:description" content="18 questões">
     <link rel="icon" href="https://avatars.githubusercontent.com/u/176923283?v=4">
     <style>
         body, html {
             margin: 0;
             padding: 0;
             font-family: Calibri, Sans serif;
-            background-color: #e6f0fa;
+            background-color: #fff3e0;
             height: 100%;
             display: flex;
             justify-content: center;
@@ -35,7 +35,7 @@
         }
 
         .chat-header {
-            background: linear-gradient(135deg, #87CEEB, #00BFFF);
+            background-color: #FFA500;
             color: white;
             padding: 12px;
             text-align: center;
@@ -72,8 +72,8 @@
         }
 
         .chat-bubble {
-            background-color: #00BFFF;
-            color: white;
+            background-color: #ffcc80;
+            color: #000;
             padding: 15px;
             border-radius: 15px;
             margin-bottom: 10px;
@@ -97,7 +97,7 @@
             left: -10px;
             border-width: 10px;
             border-style: solid;
-            border-color: transparent #00BFFF transparent transparent;
+            border-color: transparent #ffcc80 transparent transparent;
         }
 
         .response-buttons {
@@ -117,13 +117,13 @@
             border-radius: 10px;
             border: none;
             cursor: pointer;
-            background-color: #d9eaf7;
+            background-color: #ffe0b2;
             transition: background-color 0.3s ease, transform 0.3s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .response-buttons button:hover {
-            background-color: #00CED1;
+            background-color: #ffb74d;
             color: white;
             transform: scale(1.05);
         }
@@ -133,7 +133,7 @@
         }
 
         .response-buttons button.active {
-            background-color: #007bff;
+            background-color: #ff8f00;
             color: white;
         }
 
@@ -194,7 +194,7 @@
         }
 
         .result-popup h2 {
-            color: #4682B4;
+            color: #ff9800;
             font-weight: bold;
         }
 
@@ -203,9 +203,9 @@
             font-size: 18px;
         }
 
-        .result-blue { color: blue; }
-        .result-orange { color: orange; }
-        .result-red { color: red; }
+        .result-blue { color: #2196f3; }
+        .result-orange { color: #ff9800; }
+        .result-red { color: #f44336; }
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -226,11 +226,11 @@
     <div class="chat-container" id="chatContainer">
         <div class="chat-header">
             <div class="chat-header-subtitle">
-                Triagem de traços autísticos em crianças e adolescentes 27 perguntas
+                Triagem de TDAH em adultos 18 perguntas
             </div>
         </div>
         <div class="chat-content" id="chatContent">
-            <div class="chat-bubble"><p>Esta é uma ferramenta de triagem para identificação de traços autísticos em crianças e adolescentes, por meio de <b>27 perguntas</b>, que pode servir de alerta em casos que merecem <b>buscar uma avaliação profissional adequada</b></p><p>Esse chat é uma tradução livre do teste original, <b>ASSQ</b>, que se encontra em inglês e com todas as informações de fonte e pesquisadores responsáveis na página <a href='https://psychology-tools.com/test/autism-spectrum-screening-questionnaire' target='_blank'>Psychology Tools</a>.<p><b>Instrução:</p><p> Marque as opções que mais se parecem com a criança/adolescente em questão:</p></div>
+            <div class="chat-bubble"><p>Esta é uma ferramenta de triagem para identificação de traços de TDAH em adultos, por meio de <b>18 perguntas</b>, como alerta para casos que merecem <b>buscar uma avaliação profissional adequada</b></p><p>Esse chat é uma tradução livre do teste original, <b>ASRS</b>, que se encontra em inglês e com todas as informações de fonte e pesquisadores responsáveis na página <a href='https://psychology-tools.com/test/adult-adhd-self-report-scale' target='_blank'>Psychology Tools</a>.<p><b>Instrução:</p><p> Para cada afirmação abaixo, escolha uma resposta que melhor se aplica a você.</p></div>
         </div>
         <div class="chat-footer">
             <p>Somente o chatbot pode enviar mensagens</p>
@@ -246,249 +246,184 @@
     <script>
         const questions = [
             {
-                text: '<b>01/27:</b> Age como se fosse muito velha ou muito nova para sua idade?</b>',
+                text: '<b>01/18:</b> Com que frequência você tem dificuldade em finalizar os detalhes finais de um projeto depois que as partes mais desafiadoras já foram concluídas?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>02/27:</b> Outras crianças acham que ele(a) se comporta como um professor(a) diferente?</b>',
+                text: '<b>02/18:</b> Com que frequência você tem dificuldade em colocar as coisas em ordem quando precisa fazer uma tarefa que exige organização?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>03/27:</b> Vive um pouco no seu próprio mundo, com interesses muito específicos e diferentes dos outros?</b>',
+                text: '<b>03/18:</b> Com que frequência você tem problemas para lembrar de compromissos ou obrigações?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>04/27:</b> Sabe muitos detalhes sobre certos assuntos, mas não entende o que eles realmente significam?</b>',
+                text: '<b>04/18:</b> Quando você tem uma tarefa que exige muita reflexão, com que frequência você evita ou adia começar?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>05/27:</b> Entende as palavras e expressões exatamente como são ditas, sem perceber duplos sentidos ou metáforas?</b>',
+                text: '<b>05/18:</b> Com que frequência você fica inquieto ou contorce as mãos ou os pés quando tem que ficar sentado por muito tempo?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>06/27:</b> Fala de um jeito muito formal, esquisito, antiquado ou como um robô?</b>',
+                text: '<b>06/18:</b> Com que frequência você se sente excessivamente ativo e compelido a fazer coisas, como se estivesse sendo impulsionado por um motor?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }                ]
+            },
+            {
+                text: '<b>07/18:</b> Com que frequência você comete erros por descuido quando tem que trabalhar em um projeto chato ou difícil?</b>',
+                options: [
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>07/27:</b> Inventa palavras e expressões próprias?',
+                text: '<b>08/18:</b> Com que frequência você tem dificuldade em manter a atenção quando está fazendo um trabalho chato ou repetitivo?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>08/27:</b> Tem uma voz ou maneira de falar diferente das outras pessoas?</b>',
+                text: '<b>09/18:</b> Com que frequência você tem dificuldade de se concentrar no que as pessoas lhe dizem, mesmo quando estão falando diretamente com você?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>09/27:</b> Faz sons sem querer, como limpar a garganta, grunhir, estalar, chorar ou gritar?</b>',
+                text: '<b>10/18:</b> Com que frequência você perde ou tem dificuldade em encontrar coisas em casa ou no trabalho?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>10/27:</b> É muito bom em algumas coisas, mas muito ruim em outras?</b>',
+                text: '<b>11/18:</b> Com que frequência você se distrai com atividades ou barulhos ao seu redor?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>11/27:</b> Fala bastante, mas não ajusta o que diz de acordo com a situação ou as pessoas?</b>',
+                text: '<b>12/18:</b> Com que frequência você sai do seu lugar em reuniões ou outras situações nas quais se espera que você permaneça sentado?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>12/27:</b> Não consegue se colocar no lugar dos outros?</b>',
+                text: '<b>13/18:</b> Com que frequência você se sente inquieto ou inquieto?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>13/27:</b> Fala coisas ingênuas ou que deixam os outros envergonhados?</b>',
+                text: '<b>14/18:</b> Com que frequência você tem dificuldade para relaxar e descontrair quando tem tempo para si mesmo?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>14/27:</b> Tem um estilo de olhar desviante?</b>',
+                text: '<b>15/18:</b> Com que frequência você se pega falando demais quando está em situações sociais?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>15/27:</b> Quer ser sociável, mas tem dificuldade em fazer amigos?</b>',
+                text: '<b>16/18:</b> Quando você está em uma conversa, com que frequência você se pega terminando as frases das pessoas com quem está falando antes que elas mesmas consigam terminá-las?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>16/27:</b> Consegue ficar com outras crianças, mas só quando tudo é do jeito dele(a)?</b>',
+                text: '<b>17/18:</b> Com que frequência você tem dificuldade em esperar sua vez em situações em que é necessário revezar?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
             {
-                text: '<b>17/27:</b> Não tem um melhor amigo?</b>',
+                text: '<b>18/18:</b> Com que frequência você interrompe os outros quando eles estão ocupados?</b>',
                 options: [
-                    { text: 'Sim', value: 2 },
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
                     { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
                 ]
             },
-            {
-                text: '<b>18/27:</b> Não tem muito bom senso?</b>',
-                options: [
-                    { text: 'Sim', value: 2 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
-                ]
-            },
-            {
-                text: '<b>19/27:</b> Não é bom em jogos: não sabe como trabalhar em equipe e às vezes faz pontos contra si mesmo(a)?</b>',
-                options: [
-                    { text: 'Sim', value: 2 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
-                ]
-            },
-            {
-                text: '<b>20/27:</b> Tem movimentos ou gestos desajeitados, descoordenados ou desengonçados?</b>',
-                options: [
-                    { text: 'Sim', value: 2 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
-                ]
-            },
-            {
-                text: '<b>21/27:</b> Faz movimentos involuntários com o rosto ou o corpo?</b>',
-                options: [
-                    { text: 'Sim', value: 2 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
-                ]
-            },
-            {
-                text: '<b>22/27:</b> Tem dificuldade em completar tarefas diárias simples por causa de repetição compulsiva de ações ou pensamentos?</b>',
-                options: [
-                    { text: 'Sim', value: 2 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
-                ]
-            },
-            {
-                text: '<b>23/27:</b> Tem rotinas fixas e não gosta de mudanças?</b>',
-                options: [
-                    { text: 'Sim', value: 2 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
-                ]
-            },
-            {
-                text: '<b>24/27:</b> Fica muito apegado(a) a certos objetos de maneira incomum?</b>',
-                options: [
-                    { text: 'Sim', value: 2 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
-                ]
-            },
-            {
-                text: '<b>25/27:</b> Outras crianças fazem bullying com ele(a)?</b>',
-                options: [
-                    { text: 'Sim', value: 2 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
-                ]
-            },
-            {
-                text: '<b>26/27:</b> Tem expressões faciais que parecem diferentes ou estranhas?</b>',
-                options: [
-                    { text: 'Sim', value: 2 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
-                ]
-            },
-            {
-                text: '<b>27/27:</b> Tem uma postura corporal diferente ou estranha?</b>',
-                options: [
-                    { text: 'Sim', value: 2 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Não', value: 0 }
-
-                ]
-            },
-
             // Adicione mais questões aqui
         ];
 
@@ -565,35 +500,35 @@
             }
         }
 
-        function updateResult() {
-            if (currentQuestionIndex < questions.length) return;
+function updateResult() {
+    if (currentQuestionIndex < questions.length) return;
 
-            const resultPopup = document.getElementById('resultPopup');
-            const resultText = document.getElementById('resultText');
-            let totalScore = 0;
+    const resultPopup = document.getElementById('resultPopup');
+    const resultText = document.getElementById('resultText');
+    let totalScore1 = 0; // Para perguntas 1 a 8
+    let totalScore2 = 0; // Para perguntas 9 a 18
 
-            questions.forEach(question => {
-                if (question.selectedValue !== undefined) {
-                    totalScore += question.selectedValue;
-                }
-            });
-
-            let resultMessage = '';
-            if (totalScore <= 13) {
-                resultMessage = `<span class="result-blue">Pontuações até 13 apresentam baixa probabilidade de autismo.</span>`;
-            } else if (totalScore <= 22) {
-                resultMessage = `<span class="result-orange">Pontuações de 13 a 22 apresentam traços consideráveis de autismo. Considere procurar avaliação profissional.</span>`;
-            } else {
-                resultMessage = `<span class="result-red">Pontuções acima de 22 tem alta probabilidade de autismo. Recomendado procurar avaliação profissional.</span>`;
-            }
-
-            resultText.innerHTML = `Sua pontuação foi ${totalScore} de um total possível de 54. ${resultMessage}`;
-            resultPopup.style.display = 'block';
-
-            setTimeout(() => {
-                resultPopup.style.display = 'none';
-            }, 15000);
+    questions.forEach((question, index) => {
+        if (question.selectedValue !== undefined) {
+            if (index < 8) totalScore1 += question.selectedValue;
+            if (index >= 8 && index < 18) totalScore2 += question.selectedValue;
         }
+    });
+
+    let resultMessage = '';
+    if (totalScore1 < 4 || totalScore2 < 4) {
+        resultMessage = `<span class="result-blue">Suas respostas não sugerem indício de TDAH.</span>`;
+    } else {
+        resultMessage = `<span class="result-red">Suas respostas indicam possível TDAH. Considere procurar uma avaliação profissional.</span>`;
+    }
+
+    resultText.innerHTML = `Você fez ${totalScore1 + totalScore2} pontos. ${resultMessage}`;
+    resultPopup.style.display = 'block';
+
+    setTimeout(() => {
+        resultPopup.style.display = 'none';
+    }, 15000);
+}
 
         function showResult() {
             updateResult();
