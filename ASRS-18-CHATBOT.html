@@ -505,24 +505,29 @@ function updateResult() {
 
     const resultPopup = document.getElementById('resultPopup');
     const resultText = document.getElementById('resultText');
-    let totalScore1 = 0; // Para perguntas 1 a 8
-    let totalScore2 = 0; // Para perguntas 9 a 18
+    let totalHyperactivityScore = 0; // Para perguntas de Hiperatividade
+    let totalInattentionScore = 0; // Para perguntas de Falta de Atenção
 
     questions.forEach((question, index) => {
         if (question.selectedValue !== undefined) {
-            if (index < 8) totalScore1 += question.selectedValue;
-            if (index >= 8 && index < 18) totalScore2 += question.selectedValue;
+            if (index < 6) totalHyperactivityScore += question.selectedValue; // Perguntas 1 a 6
+            if (index >= 6) totalInattentionScore += question.selectedValue; // Perguntas 7 a 18
         }
     });
 
     let resultMessage = '';
-    if (totalScore1 < 4 || totalScore2 < 4) {
-        resultMessage = `<span class="result-blue">Suas respostas não sugerem indício de TDAH.</span>`;
-    } else {
+    // Mensagem só aparece se ambos os grupos tiverem 4 pontos ou mais
+    if (totalHyperactivityScore >= 4 && totalInattentionScore >= 4) {
         resultMessage = `<span class="result-red">Suas respostas indicam possível TDAH. Considere procurar uma avaliação profissional.</span>`;
+    } else {
+        resultMessage = `<span class="result-blue">Suas respostas não sugerem indício de TDAH.</span>`;
     }
 
-    resultText.innerHTML = `Você fez ${totalScore1 + totalScore2} pontos. ${resultMessage}`;
+    resultText.innerHTML = `
+        <p>Pontuação de Hiperatividade: ${totalHyperactivityScore}</p>
+        <p>Pontuação de Falta de Atenção: ${totalInattentionScore}</p>
+        ${resultMessage}
+    `;
     resultPopup.style.display = 'block';
 
     setTimeout(() => {
@@ -530,24 +535,25 @@ function updateResult() {
     }, 15000);
 }
 
-        function showResult() {
-            updateResult();
-        }
+function showResult() {
+    updateResult();
+}
 
-        function restartChat() {
-            const chatContainer = document.getElementById('chatContainer');
-            chatContainer.classList.add('dissolve');
+function restartChat() {
+    const chatContainer = document.getElementById('chatContainer');
+    chatContainer.classList.add('dissolve');
 
-            setTimeout(() => {
-                location.reload(); // Atualiza a página
-            }, 1000);
-        }
+    setTimeout(() => {
+        location.reload(); // Atualiza a página
+    }, 1000);
+}
 
-        document.getElementById('restartButton').onclick = restartChat;
+document.getElementById('restartButton').onclick = restartChat;
 
-        window.onload = () => {
-            displayQuestion(currentQuestionIndex);
-        };
+window.onload = () => {
+    displayQuestion(currentQuestionIndex);
+};
+
     </script>
 </body>
 </html>
