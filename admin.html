@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Cards - Clonador de Páginas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            overflow: hidden;
+        }
+        iframe {
+            flex: 2;
+            border: none;
+            height: 100%;
+            width: 70%;
+        }
+        .editor {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            overflow-y: auto;
+        }
+        .editor-header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .field {
+            margin-bottom: 10px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        /* Estilos da tela de login */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #dff0d8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .login-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .login-box h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .login-box button {
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        .login-box button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <h2>Senha de Administrador</h2>
+            <input type="password" id="passwordInput" placeholder="Digite a senha">
+            <button onclick="checkPassword()">Entrar</button>
+        </div>
+    </div>
+
+    <div class="button-bar" style="padding: 10px; background-color: #f0f0f0;">
+        <button onclick="loadPage()">Carregar Página TEAnews</button>
+    </div>
+
+    <div class="container">
+        <iframe id="preview" src=""></iframe>
+        
+        <div class="editor">
+            <div class="editor-header">Editor de Cards</div>
+            <div id="editorFields"></div>
+            <button onclick="updateContent()">Atualizar Conteúdo</button>
+            <button onclick="downloadHTML()">Baixar HTML Editado</button>
+            
+        </div>
+    </div>
+
+    <script>
+        let originalHTML = '';
+        let doc;
+
+        function loadPage() {
+            const url = 'TEAnews.html';  // Carregar automaticamente a página TEAnews
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    originalHTML = data;
+                    document.getElementById('preview').srcdoc = data;
+
+                    const parser = new DOMParser();
+                    doc = parser.parseFromString(data, 'text/html');
+
+                    const editorFields = document.getElementById('editorFields');
+                    editorFields.innerHTML = ''; // Limpar o editor anterior
+
+                    const cards = doc.querySelectorAll('.card');
+                    cards.forEach((card, index) => {
+                        const title = card.querySelector('h2') ? card.querySelector('h2').textContent : '';
+                        addField(`Card ${index + 1} - Título`, `card_${index}_title`, title);
+
+                        const text = card.querySelector('p') ? card.querySelector('p').textContent : '';
+                        addField(`Card ${index + 1} - Texto`, `card_${index}_text`, text);
+
+                        const link = card.querySelector('a') ? card.querySelector('a').href : '';
+                        addField(`Card ${index + 1} - Link do Site`, `card_${index}_link`, link);
+
+                        const img = card.querySelector('img') ? card.querySelector('img').src : '';
+                        addField(`Card ${index + 1} - Link da Imagem`, `card_${index}_img`, img);
+                    });
+                })
+                .catch(error => alert('Erro ao carregar a página: ' + error));
+        }
+
+        function addField(labelText, id, value) {
+            const editorFields = document.getElementById('editorFields');
+
+            const fieldDiv = document.createElement('div');
+            fieldDiv.classList.add('field');
+
+            const label = document.createElement('label');
+            label.setAttribute('for', id);
+            label.textContent = labelText;
+            fieldDiv.appendChild(label);
+
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('id', id);
+            input.setAttribute('value', value);
+            fieldDiv.appendChild(input);
+
+            editorFields.appendChild(fieldDiv);
+        }
+
+        function updateContent() {
+            const cards = doc.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                const newTitle = document.getElementById(`card_${index}_title`).value;
+                if (card.querySelector('h2')) {
+                    card.querySelector('h2').textContent = newTitle;
+                }
+
+                const newText = document.getElementById(`card_${index}_text`).value;
+                if (card.querySelector('p')) {
+                    card.querySelector('p').textContent = newText;
+                }
+
+                const newLink = document.getElementById(`card_${index}_link`).value;
+                if (card.querySelector('a')) {
+                    card.querySelector('a').href = newLink;
+                }
+
+                const newImageLink = document.getElementById(`card_${index}_img`).value;
+                if (card.querySelector('img')) {
+                    card.querySelector('img').src = newImageLink;
+                }
+            });
+
+            const updatedHTML = doc.documentElement.outerHTML;
+            document.getElementById('preview').srcdoc = updatedHTML;
+        }
+
+        function downloadHTML() {
+            const updatedHTML = doc.documentElement.outerHTML;
+            const blob = new Blob([updatedHTML], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'pagina_clonada_editada.html';
+            link.click();
+        }
+
+        // Função de verificação da senha
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === 'admin123') {
+                document.getElementById('loginScreen').style.display = 'none'; // Oculta a tela de login
+            } else {
+                alert('Senha incorreta!');
+            }
+        }
+
+        document.getElementById("passwordInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkPassword();
+            }
+        });
+
+    </script>
+</body>
+</html>
