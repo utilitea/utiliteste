@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASRM - Escala de Mania de Altman</title>
+    <meta property="og:title" content="Escala de Avaliação de Mania de Altman (ASRM)">
+    <meta property="og:description" content="Triagem de sintomas maníacos ou hipomaníacos em 5 questões">
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/176923283?v=4">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #2b5876, #4e4376);
+            --bubble-bg: #4e4376;
+            --btn-bg: #f0f4f8;
+            --btn-hover: #3b335c;
+            --accent-color: #ff6b6b;
+            --text-dark: #2c3e50;
+        }
+
+        * { box-sizing: border-box; }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f7;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 900px;
+            height: 100vh;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .chat-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .chat-header h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .chat-header p {
+            margin: 5px 0 0 0;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #4facfe;
+            transition: width 0.4s ease;
+        }
+
+        .chat-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: #f8fafc;
+        }
+
+        .chat-bubble {
+            background-color: var(--bubble-bg);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 18px;
+            border-top-left-radius: 4px;
+            max-width: 85%;
+            align-self: flex-start;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            animation: fadeIn 0.4s ease-out;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+
+        .chat-bubble.intro-bubble {
+            background-color: #34495e;
+        }
+
+        .chat-bubble b {
+            color: #ffeaa7;
+        }
+
+        .chat-bubble a {
+            color: #74b9ff;
+            text-decoration: underline;
+        }
+
+        .response-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 85%;
+            align-self: flex-start;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .response-card {
+            background-color: white;
+            border: 1px solid #e1e8ed;
+            padding: 12px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .response-card:hover {
+            background-color: var(--btn-hover);
+            color: white;
+            border-color: var(--btn-hover);
+            transform: translateX(5px);
+        }
+
+        .response-card.active {
+            background-color: #2b5876;
+            color: white;
+            border-color: #2b5876;
+            font-weight: 600;
+        }
+
+        .response-val {
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 20px;
+            background-color: #edf2f7;
+            color: #4a5568;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .response-card:hover .response-val {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #e2e8f0;
+            padding: 10px 16px;
+            border-radius: 18px;
+            align-self: flex-start;
+            width: fit-content;
+            margin-bottom: 10px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #718096;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-footer {
+            padding: 12px 20px;
+            background-color: #f1f5f9;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-footer p {
+            margin: 0;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .btn-restart {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-restart:hover {
+            background-color: #dc2626;
+        }
+
+        /* Modal de Resultado */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.75);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-card {
+            background: white;
+            border-radius: 20px;
+            max-width: 550px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: modalUp 0.4s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalUp {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .score-badge {
+            display: inline-block;
+            font-size: 38px;
+            font-weight: 800;
+            padding: 15px 30px;
+            border-radius: 16px;
+            margin: 15px 0;
+        }
+
+        .score-normal { background-color: #d1fae5; color: #065f46; }
+        .score-alert { background-color: #fee2e2; color: #991b1b; }
+
+        .result-title {
+            font-size: 22px;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .result-desc {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.6;
+            margin: 15px 0 25px 0;
+            text-align: left;
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn-modal {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-close {
+            background-color: #64748b;
+            color: white;
+        }
+
+        .btn-close:hover { background-color: #475569; }
+
+        .btn-redo {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .btn-redo:hover { background-color: #1d4ed8; }
+
+        @media (max-width: 600px) {
+            .chat-container { height: 100vh; }
+            .chat-bubble, .response-options { max-width: 95%; }
+            .modal-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <h1>Escala de Mania de Altman (ASRM)</h1>
+            <p>Triagem e Avaliação de Sintomas Maníacos ou Hipomaníacos</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="chat-content" id="chatContent">
+            <div class="chat-bubble intro-bubble">
+                <p>Olá! A <b>Escala de Autoavaliação de Mania de Altman (ASRM)</b> é um instrumento clínico utilizado para avaliar a presença e severidade de sintomas de mania ou hipomania.</p>
+                <p><b>Instruções:</b> Responda às <b>5 questões</b> a seguir escolhendo a afirmação que melhor descreve como você tem se sentido durante a <b>última semana</b>.</p>
+                <p><small><i>Fonte oficial original: <a href="https://psychology-tools.com/test/altman-self-rating-mania-scale" target="_blank">Psychology Tools</a>.</i></small></p>
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <p>Somente a assistente pode enviar mensagens</p>
+            <button class="btn-restart" id="btnRestart">Reiniciar</button>
+        </div>
+    </div>
+
+    <!-- Popup / Modal de Resultado -->
+    <div class="modal-overlay" id="modalResult">
+        <div class="modal-card">
+            <h2 class="result-title">Resultado da Avaliação</h2>
+            
+            <div class="score-badge" id="scoreBadge">0 / 20</div>
+
+            <div class="result-desc" id="resultDescription"></div>
+
+            <div class="modal-buttons">
+                <button class="btn-modal btn-close" onclick="closeModal()">Fechar</button>
+                <button class="btn-modal btn-redo" onclick="restartTest()">Refazer Teste</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                title: "1. Humor Positivo / Alegria",
+                prompt: "Escolha a frase que melhor descreve seu humor na última semana:",
+                options: [
+                    { text: "Não me sinto mais feliz ou alegre do que o habitual.", value: 0 },
+                    { text: "Ocasionalmente me sinto mais feliz ou alegre do que o habitual.", value: 1 },
+                    { text: "Frequentemente me sinto mais feliz ou alegre do que o habitual.", value: 2 },
+                    { text: "Sinto-me mais feliz ou alegre do que o habitual na maior parte do tempo.", value: 3 },
+                    { text: "Sinto-me mais feliz ou alegre do que o habitual TODO o tempo.", value: 4 }
+                ]
+            },
+            {
+                title: "2. Autoconfiança",
+                prompt: "Sobre o seu nível de autoconfiança na última semana:",
+                options: [
+                    { text: "Não me sinto mais autoconfiante do que o habitual.", value: 0 },
+                    { text: "Ocasionalmente me sinto mais autoconfiante do que o habitual.", value: 1 },
+                    { text: "Frequentemente me sinto mais autoconfiante do que o habitual.", value: 2 },
+                    { text: "Sinto-me muito mais autoconfiante do que o habitual.", value: 3 },
+                    { text: "Sinto-me extremamente autoconfiante TODO o tempo.", value: 4 }
+                ]
+            },
+            {
+                title: "3. Padrão de Sono",
+                prompt: "Em relação às suas necessidades de sono na última semana:",
+                options: [
+                    { text: "Não preciso de menos sono do que o habitual.", value: 0 },
+                    { text: "Ocasionalmente preciso de menos sono do que o habitual.", value: 1 },
+                    { text: "Frequentemente preciso de menos sono do que o habitual.", value: 2 },
+                    { text: "Muito frequentemente preciso de menos sono do que o habitual.", value: 3 },
+                    { text: "Consigo passar o dia e a noite inteiros sem dormir e mesmo assim não sinto cansaço.", value: 4 }
+                ]
+            },
+            {
+                title: "4. Fala e Comunicação",
+                prompt: "Sobre a sua quantidade/velocidade de fala na última semana:",
+                options: [
+                    { text: "Não falo mais do que o habitual.", value: 0 },
+                    { text: "Ocasionalmente falo mais do que o habitual.", value: 1 },
+                    { text: "Frequentemente falo mais do que o habitual.", value: 2 },
+                    { text: "Muito frequentemente falo mais do que o habitual.", value: 3 },
+                    { text: "Falo constantemente e não consigo ser interrompido(a).", value: 4 }
+                ]
+            },
+            {
+                title: "5. Nível de Atividade",
+                prompt: "Sobre seu nível de atividade física ou mental (no trabalho, social, sexual ou em casa):",
+                options: [
+                    { text: "Não estive mais ativo(a) do que o habitual.", value: 0 },
+                    { text: "Ocasionalmente estive mais ativo(a) do que o habitual.", value: 1 },
+                    { text: "Frequentemente estive mais ativo(a) do que o habitual.", value: 2 },
+                    { text: "Muito frequentemente estive mais ativo(a) do que o habitual.", value: 3 },
+                    { text: "Estou constantemente ativo(a) ou em movimento o tempo todo.", value: 4 }
+                ]
+            }
+        ];
+
+        let currentIndex = 0;
+        let answers = Array(questions.length).fill(null);
+
+        function scrollToBottom() {
+            const chatContent = document.getElementById('chatContent');
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        function updateProgressBar() {
+            const percent = ((currentIndex) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = percent + '%';
+        }
+
+        function displayQuestion(index) {
+            updateProgressBar();
+            const chatContent = document.getElementById('chatContent');
+            const q = questions[index];
+
+            // Indicador de digitação
+            const typing = document.createElement('div');
+            typing.className = 'typing-indicator';
+            typing.id = 'typingIndicator';
+            typing.innerHTML = `<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
+            chatContent.appendChild(typing);
+            scrollToBottom();
+
+            setTimeout(() => {
+                const typingEl = document.getElementById('typingIndicator');
+                if (typingEl) typingEl.remove();
+
+                // Balão da Pergunta
+                const bubble = document.createElement('div');
+                bubble.className = 'chat-bubble';
+                bubble.innerHTML = `<b>${q.title}</b><br>${q.prompt}`;
+                chatContent.appendChild(bubble);
+
+                // Opções
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'response-options';
+
+                q.options.forEach((opt) => {
+                    const card = document.createElement('div');
+                    card.className = 'response-card';
+                    card.innerHTML = `<span>${opt.text}</span> <span class="response-val">+${opt.value}</span>`;
+                    card.onclick = () => selectOption(index, opt.value, card, optionsContainer);
+                    optionsContainer.appendChild(card);
+                });
+
+                chatContent.appendChild(optionsContainer);
+                scrollToBottom();
+            }, 700);
+        }
+
+        function selectOption(qIndex, value, cardEl, container) {
+            const cards = container.getElementsByClassName('response-card');
+            for (let c of cards) c.classList.remove('active');
+            cardEl.classList.add('active');
+
+            answers[qIndex] = value;
+
+            if (qIndex === currentIndex) {
+                currentIndex++;
+                if (currentIndex < questions.length) {
+                    displayQuestion(currentIndex);
+                } else {
+                    document.getElementById('progressBar').style.width = '100%';
+                    setTimeout(calculateResult, 800);
+                }
+            }
+        }
+
+        function calculateResult() {
+            const totalScore = answers.reduce((acc, val) => acc + (val || 0), 0);
+            const scoreBadge = document.getElementById('scoreBadge');
+            const resultDesc = document.getElementById('resultDescription');
+
+            scoreBadge.innerText = `${totalScore} / 20`;
+
+            if (totalScore >= 6) {
+                scoreBadge.className = 'score-badge score-alert';
+                resultDesc.innerHTML = `
+                    <p><b>Pontuação Significativa para Mania/Hipomania (≥ 6 pontos)</b></p>
+                    <p>Sua pontuação total foi de <b>${totalScore} pontos</b>. Na escala ASRM, pontuações iguais ou superiores a 6 indicam uma alta probabilidade de presenças de sintomas maníacos ou hipomaníacos significativos.</p>
+                    <p><b>Recomendação:</b> É fortemente recomendado buscar a avaliação de um profissional de saúde mental (psiquiatra ou psicólogo) para um diagnóstico preciso e acompanhamento adequado.</p>
+                `;
+            } else {
+                scoreBadge.className = 'score-badge score-normal';
+                resultDesc.innerHTML = `
+                    <p><b>Pontuação Sem Indicadores Críticos (0 a 5 pontos)</b></p>
+                    <p>Sua pontuação total foi de <b>${totalScore} pontos</b>. Pontuações abaixo de 6 geralmente indicam baixa probabilidade ou ausência de sintomas significativos de mania ou hipomania no período avaliado.</p>
+                    <p><i>Nota: Este teste é apenas uma ferramenta informativa de triagem e não substitui uma consulta médica ou psicológica formal.</i></p>
+                `;
+            }
+
+            document.getElementById('modalResult').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalResult').style.display = 'none';
+        }
+
+        function restartTest() {
+            closeModal();
+            location.reload();
+        }
+
+        document.getElementById('btnRestart').onclick = restartTest;
+
+        window.onload = () => {
+            displayQuestion(currentIndex);
+        };
+    </script>
+</body>
+</html>
