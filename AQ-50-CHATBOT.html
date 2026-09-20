@@ -184,28 +184,49 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 10px;
-            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: 12px;
+            padding: 25px;
             text-align: center;
             display: none;
             z-index: 1000;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 400px;
         }
 
         .result-popup h2 {
             color: #007bff;
             font-weight: bold;
+            margin-top: 0;
         }
 
         .result-popup p {
-            margin: 10px 0;
+            margin: 15px 0;
             font-size: 18px;
+            line-height: 1.4;
         }
 
-        .result-blue { color: blue; }
-        .result-orange { color: orange; }
-        .result-red { color: red; }
+        .close-popup-btn {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .close-popup-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .result-blue { color: #0056b3; font-weight: bold; }
+        .result-orange { color: #d97706; font-weight: bold; }
+        .result-red { color: #dc2626; font-weight: bold; }
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -241,6 +262,7 @@
     <div class="result-popup" id="resultPopup">
         <h2>Resultado</h2>
         <p id="resultText"></p>
+        <button class="close-popup-btn" onclick="closePopup()">Fechar</button>
     </div>
 
     <script>
@@ -694,8 +716,7 @@
                     { text: 'Discordo Parcialmente', value: 1 },
                     { text: 'Discordo Totalmente', value: 1 }
                 ]
-            },
-            // Adicione mais questões aqui
+            }
         ];
 
         let currentQuestionIndex = 0;
@@ -793,12 +814,12 @@
                 resultMessage = `<span class="result-red">Pontuações na faixa de 33 a 50 indicam traços autistas significativos. Recomendado procurar avaliação profissional.</span>`;
             }
 
-            resultText.innerHTML = `Sua pontuação foi ${totalScore} de um total de 50. ${resultMessage}`;
+            resultText.innerHTML = `Sua pontuação foi ${totalScore} de um total de 50. <br><br>${resultMessage}`;
             resultPopup.style.display = 'block';
+        }
 
-            setTimeout(() => {
-                resultPopup.style.display = 'none';
-            }, 15000);
+        function closePopup() {
+            document.getElementById('resultPopup').style.display = 'none';
         }
 
         function showResult() {
@@ -810,7 +831,7 @@
             chatContainer.classList.add('dissolve');
 
             setTimeout(() => {
-                location.reload(); // Atualiza a página
+                location.reload();
             }, 1000);
         }
 
