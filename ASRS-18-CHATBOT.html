@@ -7,6 +7,7 @@
     <meta property="og:title" content="Triagem de TDAH em adultos">
     <meta property="og:description" content="18 questões">
     <link rel="icon" href="https://avatars.githubusercontent.com/u/176923283?v=4">
+
     <style>
         body, html {
             margin: 0;
@@ -184,13 +185,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.97);
             border-radius: 10px;
             padding: 20px;
             text-align: center;
             display: none;
             z-index: 1000;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 500px;
         }
 
         .result-popup h2 {
@@ -203,13 +206,48 @@
             font-size: 18px;
         }
 
-        .result-blue { color: #2196f3; }
-        .result-orange { color: #ff9800; }
-        .result-red { color: #f44336; }
+        .result-close-button {
+            margin-top: 15px;
+            padding: 10px 25px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background-color: #ff9800;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .result-close-button:hover {
+            background-color: #f57c00;
+            transform: scale(1.03);
+        }
+
+        .result-close-button:active {
+            transform: scale(0.97);
+        }
+
+        .result-blue {
+            color: #2196f3;
+        }
+
+        .result-orange {
+            color: #ff9800;
+        }
+
+        .result-red {
+            color: #f44336;
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .dissolve {
@@ -217,36 +255,86 @@
         }
 
         @keyframes dissolve {
-            from { opacity: 1; }
-            to { opacity: 0; }
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
         }
     </style>
 </head>
+
 <body>
+
     <div class="chat-container" id="chatContainer">
+
         <div class="chat-header">
             <div class="chat-header-subtitle">
-                Triagem de TDAH em adultos 18 perguntas
+                Triagem de TDAH em adultos — 18 perguntas
             </div>
         </div>
+
         <div class="chat-content" id="chatContent">
-            <div class="chat-bubble"><p>Esta é uma ferramenta de triagem para identificação de traços de TDAH em adultos, por meio de <b>18 perguntas</b>, como alerta para casos que merecem <b>buscar uma avaliação profissional adequada</b></p><p>Esse chat é uma tradução livre do teste original, <b>ASRS</b>, que se encontra em inglês e com todas as informações de fonte e pesquisadores responsáveis na página <a href='https://psychology-tools.com/test/adult-adhd-self-report-scale' target='_blank'>Psychology Tools</a>.<p><b>Instrução:</p><p> Para cada afirmação abaixo, escolha uma resposta que melhor se aplica a você.</p></div>
+
+            <div class="chat-bubble">
+                <p>
+                    Esta é uma ferramenta de triagem para identificação de traços de TDAH em adultos,
+                    por meio de <b>18 perguntas</b>, como alerta para casos que merecem
+                    <b>buscar uma avaliação profissional adequada</b>.
+                </p>
+
+                <p>
+                    Este chat é uma tradução livre do teste original, <b>ASRS</b>, que se encontra
+                    em inglês e com todas as informações de fonte e pesquisadores responsáveis na página
+                    <a href="https://psychology-tools.com/test/adult-adhd-self-report-scale"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        Psychology Tools
+                    </a>.
+                </p>
+
+                <p>
+                    <b>Instrução:</b>
+                </p>
+
+                <p>
+                    Para cada afirmação abaixo, escolha a resposta que melhor se aplica a você.
+                </p>
+            </div>
+
         </div>
+
         <div class="chat-footer">
             <p>Somente o chatbot pode enviar mensagens</p>
-            <button class="restart-button" id="restartButton">Reiniciar</button>
+            <button class="restart-button" id="restartButton">
+                Reiniciar
+            </button>
         </div>
+
     </div>
 
     <div class="result-popup" id="resultPopup">
+
         <h2>Resultado</h2>
-        <p id="resultText"></p>
+
+        <div id="resultText"></div>
+
+        <button
+            class="result-close-button"
+            id="closeResultButton">
+            Fechar
+        </button>
+
     </div>
 
     <script>
+
         const questions = [
+
             {
-                text: '<b>01/18:</b> Com que frequência você tem dificuldade em finalizar os detalhes finais de um projeto depois que as partes mais desafiadoras já foram concluídas?</b>',
+                text: '<b>01/18:</b> Com que frequência você tem dificuldade em finalizar os detalhes finais de um projeto depois que as partes mais desafiadoras já foram concluídas?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -255,8 +343,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>02/18:</b> Com que frequência você tem dificuldade em colocar as coisas em ordem quando precisa fazer uma tarefa que exige organização?</b>',
+                text: '<b>02/18:</b> Com que frequência você tem dificuldade em colocar as coisas em ordem quando precisa fazer uma tarefa que exige organização?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -265,8 +354,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>03/18:</b> Com que frequência você tem problemas para lembrar de compromissos ou obrigações?</b>',
+                text: '<b>03/18:</b> Com que frequência você tem problemas para lembrar de compromissos ou obrigações?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -275,8 +365,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>04/18:</b> Quando você tem uma tarefa que exige muita reflexão, com que frequência você evita ou adia começar?</b>',
+                text: '<b>04/18:</b> Quando você tem uma tarefa que exige muita reflexão, com que frequência você evita ou adia começar?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -285,8 +376,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>05/18:</b> Com que frequência você fica inquieto ou contorce as mãos ou os pés quando tem que ficar sentado por muito tempo?</b>',
+                text: '<b>05/18:</b> Com que frequência você fica inquieto ou contorce as mãos ou os pés quando tem que ficar sentado por muito tempo?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -295,17 +387,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>06/18:</b> Com que frequência você se sente excessivamente ativo e compelido a fazer coisas, como se estivesse sendo impulsionado por um motor?</b>',
-                options: [
-                    { text: 'Nunca', value: 0 },
-                    { text: 'Raramente', value: 0 },
-                    { text: 'Às vezes', value: 1 },
-                    { text: 'Frequentemente', value: 1 },
-                    { text: 'Muito frequentemente', value: 1 }                ]
-            },
-            {
-                text: '<b>07/18:</b> Com que frequência você comete erros por descuido quando tem que trabalhar em um projeto chato ou difícil?</b>',
+                text: '<b>06/18:</b> Com que frequência você se sente excessivamente ativo e compelido a fazer coisas, como se estivesse sendo impulsionado por um motor?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -314,8 +398,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>08/18:</b> Com que frequência você tem dificuldade em manter a atenção quando está fazendo um trabalho chato ou repetitivo?</b>',
+                text: '<b>07/18:</b> Com que frequência você comete erros por descuido quando tem que trabalhar em um projeto chato ou difícil?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -324,8 +409,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>09/18:</b> Com que frequência você tem dificuldade de se concentrar no que as pessoas lhe dizem, mesmo quando estão falando diretamente com você?</b>',
+                text: '<b>08/18:</b> Com que frequência você tem dificuldade em manter a atenção quando está fazendo um trabalho chato ou repetitivo?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -334,8 +420,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>10/18:</b> Com que frequência você perde ou tem dificuldade em encontrar coisas em casa ou no trabalho?</b>',
+                text: '<b>09/18:</b> Com que frequência você tem dificuldade de se concentrar no que as pessoas lhe dizem, mesmo quando estão falando diretamente com você?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -344,8 +431,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>11/18:</b> Com que frequência você se distrai com atividades ou barulhos ao seu redor?</b>',
+                text: '<b>10/18:</b> Com que frequência você perde ou tem dificuldade em encontrar coisas em casa ou no trabalho?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -354,8 +442,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>12/18:</b> Com que frequência você sai do seu lugar em reuniões ou outras situações nas quais se espera que você permaneça sentado?</b>',
+                text: '<b>11/18:</b> Com que frequência você se distrai com atividades ou barulhos ao seu redor?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -364,8 +453,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>13/18:</b> Com que frequência você se sente inquieto ou inquieto?</b>',
+                text: '<b>12/18:</b> Com que frequência você sai do seu lugar em reuniões ou outras situações nas quais se espera que você permaneça sentado?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -374,8 +464,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>14/18:</b> Com que frequência você tem dificuldade para relaxar e descontrair quando tem tempo para si mesmo?</b>',
+                text: '<b>13/18:</b> Com que frequência você se sente inquieto ou incapaz de ficar parado?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -384,8 +475,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>15/18:</b> Com que frequência você se pega falando demais quando está em situações sociais?</b>',
+                text: '<b>14/18:</b> Com que frequência você tem dificuldade para relaxar e descontrair quando tem tempo para si mesmo?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -394,8 +486,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>16/18:</b> Quando você está em uma conversa, com que frequência você se pega terminando as frases das pessoas com quem está falando antes que elas mesmas consigam terminá-las?</b>',
+                text: '<b>15/18:</b> Com que frequência você se pega falando demais quando está em situações sociais?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -404,8 +497,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>17/18:</b> Com que frequência você tem dificuldade em esperar sua vez em situações em que é necessário revezar?</b>',
+                text: '<b>16/18:</b> Quando você está em uma conversa, com que frequência você se pega terminando as frases das pessoas com quem está falando antes que elas mesmas consigam terminá-las?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -414,8 +508,9 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
+
             {
-                text: '<b>18/18:</b> Com que frequência você interrompe os outros quando eles estão ocupados?</b>',
+                text: '<b>17/18:</b> Com que frequência você tem dificuldade em esperar sua vez em situações em que é necessário revezar?',
                 options: [
                     { text: 'Nunca', value: 0 },
                     { text: 'Raramente', value: 0 },
@@ -424,7 +519,18 @@
                     { text: 'Muito frequentemente', value: 1 }
                 ]
             },
-            // Adicione mais questões aqui
+
+            {
+                text: '<b>18/18:</b> Com que frequência você interrompe os outros quando eles estão ocupados?',
+                options: [
+                    { text: 'Nunca', value: 0 },
+                    { text: 'Raramente', value: 0 },
+                    { text: 'Às vezes', value: 1 },
+                    { text: 'Frequentemente', value: 1 },
+                    { text: 'Muito frequentemente', value: 1 }
+                ]
+            }
+
         ];
 
         let currentQuestionIndex = 0;
@@ -435,49 +541,70 @@
         }
 
         function displayQuestion(index) {
+
             const chatContent = document.getElementById('chatContent');
             const question = questions[index];
 
             const typingIndicator = document.createElement('div');
+
             typingIndicator.className = 'typing-indicator';
             typingIndicator.innerText = 'Digitando...';
+
             chatContent.appendChild(typingIndicator);
+
             typingIndicator.style.display = 'block';
+
             scrollToBottom();
 
             setTimeout(() => {
+
                 chatContent.removeChild(typingIndicator);
 
                 const questionBubble = document.createElement('div');
+
                 questionBubble.className = 'chat-bubble';
                 questionBubble.innerHTML = question.text;
+
                 chatContent.appendChild(questionBubble);
 
                 scrollToBottom();
 
                 const responseButtons = document.createElement('div');
+
                 responseButtons.className = 'response-buttons';
+
                 question.options.forEach((option, i) => {
+
                     setTimeout(() => {
+
                         const button = document.createElement('button');
+
                         button.innerText = option.text;
-                        button.onclick = () => handleResponse(index, option.value, button);
+
+                        button.onclick = () =>
+                            handleResponse(index, option.value, button);
 
                         if (question.selectedValue === option.value) {
                             button.classList.add('active');
                         }
 
                         responseButtons.appendChild(button);
+
                         scrollToBottom();
+
                     }, i * 500);
+
                 });
 
                 chatContent.appendChild(responseButtons);
+
                 scrollToBottom();
+
             }, 1000);
         }
 
         function handleResponse(index, value, button) {
+
             const responseButtons = button.parentElement;
             const buttons = responseButtons.getElementsByTagName('button');
 
@@ -486,74 +613,127 @@
             }
 
             button.classList.add('active');
+
             questions[index].selectedValue = value;
 
             if (index === currentQuestionIndex) {
+
                 currentQuestionIndex++;
+
                 if (currentQuestionIndex < questions.length) {
+
                     displayQuestion(currentQuestionIndex);
+
                 } else {
+
                     showResult();
+
                 }
+
             } else {
+
                 updateResult();
+
             }
         }
 
-function updateResult() {
-    if (currentQuestionIndex < questions.length) return;
+        function updateResult() {
 
-    const resultPopup = document.getElementById('resultPopup');
-    const resultText = document.getElementById('resultText');
-    let totalHyperactivityScore = 0; // Para perguntas de Hiperatividade
-    let totalInattentionScore = 0; // Para perguntas de Falta de Atenção
+            if (currentQuestionIndex < questions.length) {
+                return;
+            }
 
-    questions.forEach((question, index) => {
-        if (question.selectedValue !== undefined) {
-            if (index < 6) totalHyperactivityScore += question.selectedValue; // Perguntas 1 a 6
-            if (index >= 6) totalInattentionScore += question.selectedValue; // Perguntas 7 a 18
+            const resultPopup = document.getElementById('resultPopup');
+            const resultText = document.getElementById('resultText');
+
+            let totalHyperactivityScore = 0;
+            let totalInattentionScore = 0;
+
+            questions.forEach((question, index) => {
+
+                if (question.selectedValue !== undefined) {
+
+                    if (index < 6) {
+                        totalHyperactivityScore += question.selectedValue;
+                    }
+
+                    if (index >= 6) {
+                        totalInattentionScore += question.selectedValue;
+                    }
+                }
+            });
+
+            let resultMessage = '';
+
+            if (
+                totalHyperactivityScore >= 4 &&
+                totalInattentionScore >= 4
+            ) {
+
+                resultMessage = `
+                    <span class="result-red">
+                        Suas respostas indicam possível TDAH.
+                        Considere procurar uma avaliação profissional.
+                    </span>
+                `;
+
+            } else {
+
+                resultMessage = `
+                    <span class="result-blue">
+                        Suas respostas não sugerem indício de TDAH.
+                    </span>
+                `;
+            }
+
+            resultText.innerHTML = `
+                <p>Pontuação de Hiperatividade: ${totalHyperactivityScore}</p>
+                <p>Pontuação de Falta de Atenção: ${totalInattentionScore}</p>
+                ${resultMessage}
+            `;
+
+            resultPopup.style.display = 'block';
         }
-    });
 
-    let resultMessage = '';
-    // Mensagem só aparece se ambos os grupos tiverem 4 pontos ou mais
-    if (totalHyperactivityScore >= 4 && totalInattentionScore >= 4) {
-        resultMessage = `<span class="result-red">Suas respostas indicam possível TDAH. Considere procurar uma avaliação profissional.</span>`;
-    } else {
-        resultMessage = `<span class="result-blue">Suas respostas não sugerem indício de TDAH.</span>`;
-    }
+        function showResult() {
+            updateResult();
+        }
 
-    resultText.innerHTML = `
-        <p>Pontuação de Hiperatividade: ${totalHyperactivityScore}</p>
-        <p>Pontuação de Falta de Atenção: ${totalInattentionScore}</p>
-        ${resultMessage}
-    `;
-    resultPopup.style.display = 'block';
+        function closeResult() {
 
-    setTimeout(() => {
-        resultPopup.style.display = 'none';
-    }, 15000);
-}
+            const resultPopup =
+                document.getElementById('resultPopup');
 
-function showResult() {
-    updateResult();
-}
+            resultPopup.style.display = 'none';
+        }
 
-function restartChat() {
-    const chatContainer = document.getElementById('chatContainer');
-    chatContainer.classList.add('dissolve');
+        function restartChat() {
 
-    setTimeout(() => {
-        location.reload(); // Atualiza a página
-    }, 1000);
-}
+            const chatContainer =
+                document.getElementById('chatContainer');
 
-document.getElementById('restartButton').onclick = restartChat;
+            chatContainer.classList.add('dissolve');
 
-window.onload = () => {
-    displayQuestion(currentQuestionIndex);
-};
+            setTimeout(() => {
+
+                location.reload();
+
+            }, 1000);
+        }
+
+        document.getElementById('restartButton').onclick =
+            restartChat;
+
+        document.getElementById('closeResultButton').onclick =
+            closeResult;
+
+        window.onload = () => {
+
+            displayQuestion(currentQuestionIndex);
+
+        };
 
     </script>
+
 </body>
 </html>
