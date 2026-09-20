@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEA.Adulto.14</title>
-    <meta property="og:title" content="Triagem de autismo em adultos">
-    <meta property="og:description" content="14 questões">
+    <title>TEA.Adulto.14 - Triagem RAADS-14</title>
+    <meta property="og:title" content="Triagem de autismo em adultos (RAADS-14)">
+    <meta property="og:description" content="14 questões - RAADS-14">
     <link rel="icon" href="https://avatars.githubusercontent.com/u/176923283?v=4">
+    
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
-            font-family: Calibri, Sans serif;
+            font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
             background-color: #e6f0fa;
             height: 100%;
             display: flex;
@@ -22,124 +27,197 @@
 
         .chat-container {
             width: 100%;
-            max-width: 1000px;
-            border-radius: 0;
+            max-width: 900px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
             display: flex;
             flex-direction: column;
             height: 100vh;
-            background-color: white;
+            max-height: 100vh;
+            background-color: #ffffff;
             margin: 0 auto;
-            transition: background-color 0.3s ease;
+            position: relative;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        @media (min-height: 700px) and (min-width: 600px) {
+            .chat-container {
+                height: 90vh;
+                max-height: 850px;
+            }
         }
 
         .chat-header {
             background: linear-gradient(135deg, #003366, #006699);
             color: white;
-            padding: 12px;
+            padding: 15px;
             text-align: center;
-            font-size: 20px;
-            font-weight: bold;
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 70px;
+            min-height: 75px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            z-index: 10;
         }
 
         .chat-header img {
             position: absolute;
-            left: 10px;
-            height: 40px;
-            max-height: 80%;
+            left: 15px;
+            height: 42px;
+            max-height: 85%;
+            border-radius: 50%;
+            background-color: white;
+            padding: 2px;
+        }
+
+        .chat-header-title {
+            font-size: 19px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
         }
 
         .chat-header-subtitle {
-            font-size: 18px;
-            font-weight: normal;
-            margin-top: 20px;
-            margin-bottom: 2px;
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.25);
+            height: 6px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #00e676;
+            width: 0%;
+            transition: width 0.35s ease-in-out;
         }
 
         .chat-content {
             flex: 1;
-            padding: 15px;
+            padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
+            gap: 14px;
+            scroll-behavior: smooth;
+            background-color: #f4f8fb;
         }
 
         .chat-bubble {
             background-color: #006699;
             color: white;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-            max-width: 80%;
+            padding: 15px 18px;
+            border-radius: 18px;
+            border-top-left-radius: 4px;
+            max-width: 85%;
             align-self: flex-start;
             position: relative;
             opacity: 0;
-            animation: fadeIn 0.5s forwards;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            animation: fadeIn 0.4s forwards ease-out;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            line-height: 1.5;
+            font-size: 15px;
         }
 
-        .chat-bubble:hover {
-            transform: scale(1.02);
+        .chat-bubble p {
+            margin: 6px 0;
+        }
+
+        .chat-bubble p:first-child {
+            margin-top: 0;
+        }
+
+        .chat-bubble p:last-child {
+            margin-bottom: 0;
+        }
+
+        .chat-bubble a {
+            color: #b3e5fc;
+            text-decoration: underline;
+        }
+
+        .chat-bubble a:hover {
+            color: #ffffff;
         }
 
         .chat-bubble:after {
             content: '';
             position: absolute;
             top: 0;
-            left: -10px;
-            border-width: 10px;
+            left: -8px;
+            border-width: 8px 8px 8px 0;
             border-style: solid;
-            border-color: transparent #006699 transparent transparent;
+            border-color: #006699 transparent transparent transparent;
         }
 
         .response-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
+            width: 100%;
+            max-width: 85%;
             opacity: 0;
-            animation: fadeIn 0.5s forwards;
-            margin-bottom: 20px;
+            animation: fadeIn 0.4s forwards ease-out;
+            margin-bottom: 10px;
+            align-self: flex-start;
+        }
+
+        @media (max-width: 550px) {
+            .response-buttons {
+                grid-template-columns: 1fr;
+                max-width: 100%;
+            }
         }
 
         .response-buttons button {
-            flex: 1 1 calc(50% - 20px);
-            max-width: calc(50% - 20px);
-            padding: 10px;
+            padding: 12px 14px;
             border-radius: 10px;
-            border: none;
+            border: 1.5px solid #006699;
             cursor: pointer;
-            background-color: #d9eaf7;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            color: #004080;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
         }
 
         .response-buttons button:hover {
-            background-color: #005f73; 
+            background-color: #006699;
             color: white;
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 102, 153, 0.25);
         }
 
         .response-buttons button:active {
-            transform: scale(0.95);
+            transform: translateY(0);
         }
 
         .response-buttons button.active {
-            background-color: #007bff;
+            background-color: #004080;
             color: white;
+            border-color: #002b55;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.25);
         }
 
         .chat-footer {
-            padding: 10px;
-            background-color: #f0f0f0;
+            padding: 12px 20px;
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
             text-align: center;
             position: relative;
             display: flex;
@@ -149,230 +227,387 @@
 
         .chat-footer p {
             margin: 0;
-            color: #666;
-            font-size: 14px;
+            color: #64748b;
+            font-size: 13px;
             flex: 1;
-            text-align: center;
+            text-align: left;
         }
 
         .restart-button {
-            padding: 10px 20px;
-            border-radius: 10px;
+            padding: 8px 18px;
+            border-radius: 8px;
             border: none;
             cursor: pointer;
-            background-color: #ff4d4d;
+            background-color: #ef4444;
             color: white;
             font-weight: bold;
-            transition: background-color 0.3s ease;
+            font-size: 14px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.25);
         }
 
         .restart-button:hover {
-            background-color: #ff1a1a;
+            background-color: #dc2626;
+            transform: scale(1.02);
+        }
+
+        .restart-button:active {
+            transform: scale(0.98);
         }
 
         .typing-indicator {
             display: none;
-            font-size: 12px;
-            color: #aaa;
-            margin: 5px 0;
+            font-size: 13px;
+            color: #64748b;
+            margin: 4px 0 10px 8px;
             text-align: left;
             align-self: flex-start;
+            font-style: italic;
+            background: #e2e8f0;
+            padding: 8px 14px;
+            border-radius: 12px;
+            border-top-left-radius: 2px;
         }
 
-        .result-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            display: none;
-            z-index: 1000;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .result-popup h2 {
-            color: #004080;
+        .typing-indicator span {
+            display: inline-block;
+            animation: blink 1.4s infinite fill-mode-both;
             font-weight: bold;
         }
 
-        .result-popup p {
-            margin: 10px 0;
-            font-size: 18px;
+        .typing-indicator span:nth-child(2) { animation-delay: .2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: .4s; }
+
+        @keyframes blink {
+            0% { opacity: .2; }
+            20% { opacity: 1; }
+            100% { opacity: .2; }
         }
 
-        .result-blue { color: blue; }
-        .result-orange { color: orange; }
-        .result-red { color: red; }
+        /* Modal Overlay e Pop-up de Resultado */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease;
+            padding: 15px;
+        }
+
+        .result-popup {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 28px 24px;
+            text-align: center;
+            width: 100%;
+            max-width: 540px;
+            box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.22);
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .result-popup h2 {
+            color: #003366;
+            margin-top: 0;
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        .score-container {
+            margin: 20px 0;
+            padding: 16px;
+            background-color: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .result-score-badge {
+            font-size: 36px;
+            font-weight: 800;
+            color: #006699;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .score-max {
+            font-size: 18px;
+            color: #64748b;
+            font-weight: normal;
+        }
+
+        /* Barra do Gráfico de Resultado */
+        .meter-bar-container {
+            width: 100%;
+            height: 14px;
+            background-color: #e2e8f0;
+            border-radius: 7px;
+            overflow: hidden;
+            margin: 12px 0 6px 0;
+            position: relative;
+        }
+
+        .meter-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 7px;
+            transition: width 1s ease-out, background-color 0.5s ease;
+        }
+
+        .result-text-box {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #334155;
+            text-align: left;
+            margin: 16px 0;
+            padding: 14px;
+            border-radius: 10px;
+            background-color: #f1f5f9;
+        }
+
+        .result-blue { color: #0284c7; font-weight: bold; }
+        .result-orange { color: #d97706; font-weight: bold; }
+        .result-red { color: #dc2626; font-weight: bold; }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 22px;
+            flex-wrap: wrap;
+        }
+
+        .btn-modal {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background-color: #006699;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #004080;
+        }
+
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        .dissolve {
-            animation: dissolve 1s forwards;
+        @keyframes slideUp {
+            from { transform: translateY(25px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        @keyframes dissolve {
-            from { opacity: 1; }
-            to { opacity: 0; }
+        .dissolve {
+            opacity: 0;
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
     <div class="chat-container" id="chatContainer">
         <div class="chat-header">
-            <div class="chat-header-subtitle">
-                Triagem de traços autísticos em adultos 14 perguntas
+            <img src="https://avatars.githubusercontent.com/u/176923283?v=4" alt="Logo" onerror="this.style.display='none'">
+            <div class="chat-header-title">TEA.Adulto.14 (RAADS-14)</div>
+            <div class="chat-header-subtitle">Triagem de Traços Autísticos em Adultos</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
             </div>
         </div>
+
         <div class="chat-content" id="chatContent">
-            <div class="chat-bubble"><p>Esta é uma ferramenta de triagem para identificação de traços autísticos em adultos, por meio de <b>14 perguntas</b>, que pode servir de alerta em casos que merecem <b>buscar uma avaliação profissional adequada</b></p><p>Esse chat é uma tradução livre do teste original, <b>RAADS</b>, que se encontra em inglês e com todas as informações de fonte e pesquisadores responsáveis na página <a href='https://psychology-tools.com/test/raads-14' target='_blank'>Psychology Tools</a>.<p><b>Instruções:</p><p><b>1)</b> Por favor, responda com a resposta que descreve com mais precisão como cada uma das afirmações abaixo se aplica a você.</p><p><b>2)</b> Para os propósitos deste teste, “quando jovem” se refere à idade de 17 anos ou menos.</p></div>
+            <div class="chat-bubble">
+                <p>Esta é uma ferramenta de triagem para identificação de traços autísticos em adultos, por meio de <b>14 perguntas</b>, que pode servir de alerta em casos que merecem <b>buscar uma avaliação profissional adequada</b>.</p>
+                <p>Esse chat é uma tradução livre do teste original, <b>RAADS-14</b>, que se encontra em inglês e com todas as informações de fonte e pesquisadores responsáveis na página <a href='https://psychology-tools.com/test/raads-14' target='_blank' rel="noopener noreferrer">Psychology Tools</a>.</p>
+                <p><b>Instruções:</b></p>
+                <p><b>1)</b> Responda com a opção que descreve com mais precisão como cada afirmação se aplica a você.</p>
+                <p><b>2)</b> Para os propósitos deste teste, <i>"quando jovem"</i> refere-se à idade de 17 anos ou menos.</p>
+            </div>
         </div>
+
         <div class="chat-footer">
-            <p>Somente o chatbot pode enviar mensagens</p>
+            <p>Somente o chatbot envia as perguntas</p>
             <button class="restart-button" id="restartButton">Reiniciar</button>
         </div>
     </div>
 
-    <div class="result-popup" id="resultPopup">
-        <h2>Resultado</h2>
-        <p id="resultText"></p>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="result-popup" id="resultPopup">
+            <h2>Resultado do Teste RAADS-14</h2>
+            
+            <div class="score-container">
+                <div class="result-score-badge" id="scoreBadge">0 <span class="score-max">/ 42 pts</span></div>
+                <div class="meter-bar-container">
+                    <div class="meter-bar-fill" id="meterBarFill"></div>
+                </div>
+            </div>
+
+            <div class="result-text-box" id="resultText"></div>
+
+            <div class="modal-actions">
+                <button class="btn-modal btn-secondary" onclick="copyResultText()">Copiar Resultado</button>
+                <button class="btn-modal btn-primary" onclick="closeModal()">Revisar Respostas</button>
+            </div>
+        </div>
     </div>
 
     <script>
+        // Questões Oficiais do RAADS-14 e Sistema de Pontuação (0, 1, 2, 3)
         const questions = [
             {
-                text: '<b>01/14:</b> É difícil para mim entender como as outras pessoas estão se sentindo quando estamos conversando.</b>',
+                text: '<b>01/14:</b> É difícil para mim entender como as outras pessoas estão se sentindo quando estamos conversando.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>02/14:</b> Algumas texturas comuns que não incomodam outras pessoas me parecem muito ofensivas quando tocam minha pele.</b>',
+                text: '<b>02/14:</b> Algumas texturas comuns que não incomodam outras pessoas me parecem muito ofensivas quando tocam minha pele.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>03/14:</b> É muito difícil para mim trabalhar e funcionar em grupos.</b>',
+                text: '<b>03/14:</b> É muito difícil para mim trabalhar e funcionar em grupos.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>04/14:</b> É difícil descobrir o que as outras pessoas esperam de mim.</b>',
+                text: '<b>04/14:</b> É difícil descobrir o que as outras pessoas esperam de mim.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>05/14:</b> Eu só gosto de conversar com pessoas que compartilham meus interesses especiais.</b>',
+                text: '<b>05/14:</b> Eu só gosto de conversar com pessoas que compartilham meus interesses especiais.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>06/14:</b> Eu fico chateado quando minhas coisas são movidas.</b>',
+                text: '<b>06/14:</b> Eu fico chateado quando minhas coisas são movidas.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>07/14:</b> É difícil para mim entender o significado das expressões faciais que as pessoas usam quando estamos conversando.</b>',
+                text: '<b>07/14:</b> É difícil para mim entender o significado das expressões faciais que as pessoas usam quando estamos conversando.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>08/14:</b> Quando estou conversando com alguém, é difícil para mim entender se estou ou não incomodando eles.</b>',
+                text: '<b>08/14:</b> Quando estou conversando com alguém, é difícil para mim entender se estou ou não incomodando eles.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>09/14:</b> Quando estou em um lugar barulhento ou movimentado, eu sinto que preciso escapar.</b>',
+                text: '<b>09/14:</b> Quando estou em um lugar barulhento ou movimentado, eu sinto que preciso escapar.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>10/14:</b> É difícil para mim entender a maneira que as outras pessoas interpretam o que eu digo.</b>',
+                text: '<b>10/14:</b> É difícil para mim entender a maneira que as outras pessoas interpretam o que eu digo.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>11/14:</b> Pode ser muito difícil ler o rosto, as mãos e os movimentos do corpo de alguém quando estamos conversando.</b>',
+                text: '<b>11/14:</b> Pode ser muito difícil ler o rosto, as mãos e os movimentos do corpo de alguém quando estamos conversando.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>12/14:</b> Eu me concentro nos detalhes em vez da ideia geral.</b>',
+                text: '<b>12/14:</b> Eu me concentro nos detalhes em vez da ideia geral.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>13/14:</b> Eu levo as coisas muito a sério, então muitas vezes não entendo o que as pessoas estão tentando dizer.</b>',
+                text: '<b>13/14:</b> Eu levo as coisas muito a sério, então muitas vezes não entendo o que as pessoas estão tentando dizer.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
             },
             {
-                text: '<b>14/14:</b> Fico extremamente chateado quando a maneira como gosto de fazer as coisas muda repentinamente.</b>',
+                text: '<b>14/14:</b> Fico extremamente chateado quando a maneira como gosto de fazer as coisas muda repentinamente.',
                 options: [
                     { text: 'Verdade agora e quando jovem', value: 3 },
                     { text: 'Verdade agora', value: 2 },
                     { text: 'Verdade quando jovem', value: 1 },
-                    { text: 'Mentira', value: 0 },
+                    { text: 'Mentira', value: 0 }
                 ]
-            },
-
-            // Adicione mais questões aqui
+            }
         ];
 
         let currentQuestionIndex = 0;
@@ -382,47 +617,56 @@
             chatContent.scrollTop = chatContent.scrollHeight;
         }
 
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            const percentage = (currentQuestionIndex / questions.length) * 100;
+            progressBar.style.width = `${percentage}%`;
+        }
+
         function displayQuestion(index) {
             const chatContent = document.getElementById('chatContent');
             const question = questions[index];
 
+            // Indicador de digitação "Digitando..."
             const typingIndicator = document.createElement('div');
             typingIndicator.className = 'typing-indicator';
-            typingIndicator.innerText = 'Digitando...';
+            typingIndicator.innerHTML = 'Digitando<span>.</span><span>.</span><span>.</span>';
             chatContent.appendChild(typingIndicator);
             typingIndicator.style.display = 'block';
             scrollToBottom();
 
+            // Simula tempo de resposta do chatbot
             setTimeout(() => {
-                chatContent.removeChild(typingIndicator);
+                if (chatContent.contains(typingIndicator)) {
+                    chatContent.removeChild(typingIndicator);
+                }
 
+                // Bolha com a pergunta
                 const questionBubble = document.createElement('div');
                 questionBubble.className = 'chat-bubble';
                 questionBubble.innerHTML = question.text;
                 chatContent.appendChild(questionBubble);
 
-                scrollToBottom();
-
+                // Grade de botões de resposta
                 const responseButtons = document.createElement('div');
                 responseButtons.className = 'response-buttons';
-                question.options.forEach((option, i) => {
-                    setTimeout(() => {
-                        const button = document.createElement('button');
-                        button.innerText = option.text;
-                        button.onclick = () => handleResponse(index, option.value, button);
 
-                        if (question.selectedValue === option.value) {
-                            button.classList.add('active');
-                        }
+                question.options.forEach((option) => {
+                    const button = document.createElement('button');
+                    button.innerText = option.text;
+                    button.onclick = () => handleResponse(index, option.value, button);
 
-                        responseButtons.appendChild(button);
-                        scrollToBottom();
-                    }, i * 500);
+                    if (question.selectedValue === option.value) {
+                        button.classList.add('active');
+                    }
+
+                    responseButtons.appendChild(button);
                 });
 
                 chatContent.appendChild(responseButtons);
                 scrollToBottom();
-            }, 1000);
+                updateProgressBar();
+            }, 550);
         }
 
         function handleResponse(index, value, button) {
@@ -441,6 +685,7 @@
                 if (currentQuestionIndex < questions.length) {
                     displayQuestion(currentQuestionIndex);
                 } else {
+                    updateProgressBar();
                     showResult();
                 }
             } else {
@@ -448,38 +693,82 @@
             }
         }
 
+        function calculateScore() {
+            let totalScore = 0;
+            questions.forEach(q => {
+                if (q.selectedValue !== undefined) {
+                    totalScore += q.selectedValue;
+                }
+            });
+            return totalScore;
+        }
+
         function updateResult() {
             if (currentQuestionIndex < questions.length) return;
 
-            const resultPopup = document.getElementById('resultPopup');
+            const modalOverlay = document.getElementById('modalOverlay');
             const resultText = document.getElementById('resultText');
-            let totalScore = 0;
+            const scoreBadge = document.getElementById('scoreBadge');
+            const meterBarFill = document.getElementById('meterBarFill');
+            
+            const totalScore = calculateScore();
+            const maxScore = 42;
+            const percentage = Math.round((totalScore / maxScore) * 100);
 
-            questions.forEach(question => {
-                if (question.selectedValue !== undefined) {
-                    totalScore += question.selectedValue;
-                }
-            });
+            scoreBadge.innerHTML = `${totalScore} <span class="score-max">/ ${maxScore} pts</span>`;
 
-            let resultMessage = '';
-            if (totalScore <= 14) {
-                resultMessage = `<span class="result-blue">Pontuações na faixa de 0 a 13 geralmente não são indicativas de um Transtorno do Espectro Autista.</span>`;
-            } else if (totalScore <= 31) {
-                resultMessage = `<span class="result-orange">Pontuações de 14 a 31 são consideradas indicativas de um Transtorno do Espectro Autista. Considere procurar avaliação profissional.</span>`;
+            let resultCategory = '';
+            let barColor = '';
+
+            if (totalScore <= 13) {
+                barColor = '#0284c7'; // Azul
+                resultCategory = `<span class="result-blue">Baixa Probabilidade (0 a 13 pontos)</span><br>
+                Pontuações nesta faixa geralmente não são indicativas de Transtorno do Espectro Autista (TEA) segundo a escala RAADS-14.`;
+            } else if (totalScore <= 30) {
+                barColor = '#d97706'; // Laranja
+                resultCategory = `<span class="result-orange">Probabilidade Moderada / Indicativo de Traços (14 a 30 pontos)</span><br>
+                Sua pontuação sugere a presença de traços atípicos significativos no processamento sensorial ou social. Recomenda-se buscar avaliação profissional especializada.`;
             } else {
-                resultMessage = `<span class="result-red">Alta probabilidade de estar no espectro autista. Recomendado procurar avaliação profissional.</span>`;
+                barColor = '#dc2626'; // Vermelho
+                resultCategory = `<span class="result-red">Alta Probabilidade (31 a 42 pontos)</span><br>
+                Pontuação fortemente indicativa de características do Espectro Autista. É altamente recomendada a consulta com um neuropsicólogo ou psiquiatra para avaliação diagnóstica formal.`;
             }
 
-            resultText.innerHTML = `Sua pontuação foi ${totalScore} de um total de 42. ${resultMessage}`;
-            resultPopup.style.display = 'block';
+            resultText.innerHTML = `
+                <p style="margin-top:0;"><b>Classificação:</b> ${resultCategory}</p>
+                <hr style="border:0; border-top: 1px solid #cbd5e1; margin: 12px 0;">
+                <small style="color: #64748b; display: block;"><b>Nota de Isenção:</b> Este teste é apenas um instrumento auxiliar de rastreio inicial e não constitui diagnóstico clínico nem laudo médico.</small>
+            `;
 
+            modalOverlay.style.display = 'flex';
+
+            // Animação da barra do gráfico
             setTimeout(() => {
-                resultPopup.style.display = 'none';
-            }, 15000);
+                meterBarFill.style.backgroundColor = barColor;
+                meterBarFill.style.width = `${percentage}%`;
+            }, 100);
         }
 
         function showResult() {
             updateResult();
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+
+        function copyResultText() {
+            const score = calculateScore();
+            const textToCopy = `Resultado Triagem RAADS-14 (TEA Adulto): ${score}/42 pontos.`;
+            
+            const tempInput = document.createElement("input");
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            alert("Resultado copiado para a área de transferência!");
         }
 
         function restartChat() {
@@ -487,8 +776,8 @@
             chatContainer.classList.add('dissolve');
 
             setTimeout(() => {
-                location.reload(); // Atualiza a página
-            }, 1000);
+                location.reload();
+            }, 400);
         }
 
         document.getElementById('restartButton').onclick = restartChat;
